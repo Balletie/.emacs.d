@@ -25,7 +25,7 @@
 
 (if (eq system-type 'darwin)
     (defvar cask-path "/usr/local/share/emacs/site-lisp/cask/cask.el")
-  (defvar cask-path "~/.cask/cask.el")
+    (defvar cask-path "/usr/share/emacs/site-lisp/cask/cask.el"))
 (require 'cask cask-path)
 (cask-initialize)
 
