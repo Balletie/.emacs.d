@@ -1,0 +1,10 @@
+/%backup%~
+auto-save-list
+elpa
+games/
+plugins/
+plug-ins
+*~
+#*#
+#*#
+.cask
