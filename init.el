@@ -77,15 +77,18 @@
 (setq reftex-plug-into-AUCTeX t)
 (setq TeX-PDF-mode t)
 
-;; Use Skim as viewer, enable source <-> PDF sync
-;; make latexmk available via C-c C-c
-;; Note: SyncTeX is setup via ~/.latexmkrc (see below)
+;; Make latexmk available via C-c C-c
 (add-hook 'LaTeX-mode-hook (lambda ()
   (push
-    '("latexmk" "latexmk -pdf -e \'$pdflatex=q{pdflatex -synctex=1 %O %s.tex}\'" TeX-run-TeX nil t
-      :help "Run latexmk on file")
+    '("pdflatexmk" "latexmk -pdf -e \'$pdflatex=q{pdflatex -synctex=1 %O %s.tex}\'" TeX-run-TeX nil t
+      :help "Run latexmk on file with pdflatex")
     TeX-command-list)))
-(add-hook 'TeX-mode-hook '(lambda () (setq TeX-command-default "latexmk")))
+(add-hook 'LaTeX-mode-hook (lambda ()
+  (push
+    '("xelatexmk" "latexmk -xelatex %s" TeX-run-TeX nil t
+      :help "Run latexmk on file with xelatex")
+    TeX-command-list)))
+(add-hook 'TeX-mode-hook '(lambda () (setq TeX-command-default "pdflatexmk")))
 
 ;; use Skim as default pdf viewer
 ;; Skim's displayline is used for forward search (from .tex to .pdf)
