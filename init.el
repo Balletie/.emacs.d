@@ -63,7 +63,7 @@
 ;;; Set path for AucTeX
 (getenv "PATH")
 (setenv "PATH"
-	(concat "/usr/texbin" ":" "/usr/local/bin" ":" "/usr/local/sbin" ":"
+	(concat "/usr/bin/" ":" "/usr/texbin" ":" "/usr/local/bin" ":" "/usr/local/sbin" ":"
 		(getenv "PATH")))
 ;;; From http://www.stefanom.org/setting-up-a-nice-auctex-environment-on-mac-os-x/
 ;; AucTeX
@@ -82,7 +82,7 @@
 ;; Note: SyncTeX is setup via ~/.latexmkrc (see below)
 (add-hook 'LaTeX-mode-hook (lambda ()
   (push
-    '("latexmk" "/usr/texbin/latexmk -pdf -e \'$pdflatex=q{/usr/texbin/pdflatex -synctex=1 %O %s.tex}\'" TeX-run-TeX nil t
+    '("latexmk" "latexmk -pdf -e \'$pdflatex=q{pdflatex -synctex=1 %O %s.tex}\'" TeX-run-TeX nil t
       :help "Run latexmk on file")
     TeX-command-list)))
 (add-hook 'TeX-mode-hook '(lambda () (setq TeX-command-default "latexmk")))
