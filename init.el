@@ -88,6 +88,11 @@
 ;; Make latexmk available via C-c C-c
 (add-hook 'LaTeX-mode-hook (lambda ()
   (push
+    '("latexmk" "latexmk %s" TeX-run-TeX nil t
+      :help "Run latexmk on file")
+    TeX-command-list)))
+(add-hook 'LaTeX-mode-hook (lambda ()
+  (push
     '("pdflatexmk" "latexmk -pdf -e \'$pdflatex=q{pdflatex -synctex=1 %O %s.tex}\'" TeX-run-TeX nil t
       :help "Run latexmk on file with pdflatex")
     TeX-command-list)))
@@ -96,7 +101,7 @@
     '("xelatexmk" "latexmk -xelatex %s" TeX-run-TeX nil t
       :help "Run latexmk on file with xelatex")
     TeX-command-list)))
-(add-hook 'TeX-mode-hook '(lambda () (setq TeX-command-default "pdflatexmk")))
+(add-hook 'TeX-mode-hook '(lambda () (setq TeX-command-default "latexmk")))
 
 ;; use Skim as default pdf viewer
 ;; Skim's displayline is used for forward search (from .tex to .pdf)
