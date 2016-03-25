@@ -9,3 +9,4 @@
 (source melpa)
 
 (depends-on "auctex")
+(depends-on "use-package")
