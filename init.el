@@ -112,7 +112,3 @@
 (setq TeX-view-program-selection '((output-pdf "PDF Viewer")))
 (setq TeX-view-program-list
      `(("PDF Viewer" ,pdfviewer)))
-
-(require 'server)
-(unless (server-running-p)
-  (server-start))
