@@ -1,28 +1,5 @@
 (set-language-environment "utf-8")
 
-;; ;;; Add repository
-;; (require 'package)
-
-;; (push '("marmalade" . "http://marmalade-repo.org/packages/") package-archives)
-;; (push '("melpa" . "http://melpa.milkbox.net/packages/") package-archives)
-
-;; (setq my-packages
-;;       '(evil
-;; 	magit
-;; 	linum-off
-;; 	hlinum
-;; 	auctex))
-
-;; (package-initialize)
-
-;; (or (file-exists-p package-user-dir)
-;;     (package-refresh-contents))
-
-;; ;;; Install missing packages
-;; (dolist (package package-list)
-;;   (unless (package-installed-p package)
-;;     (package-install package)))
-
 (if (eq system-type 'darwin)
     (defvar cask-path "/usr/local/share/emacs/site-lisp/cask/cask.el")
   (progn (defvar cask-path "/usr/share/emacs/site-lisp/cask/cask.el")
