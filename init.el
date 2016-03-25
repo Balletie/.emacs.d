@@ -93,6 +93,9 @@
     (require 'evil)
     (evil-mode 1)))
 
+(use-package magit
+  :bind (("C-x g" . magit-status) ("C-x G" . magit-dispatch-popup)))
+
 (use-package linum-off
   :init
   (progn
