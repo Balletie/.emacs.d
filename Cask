@@ -2,9 +2,9 @@
 (source marmalade)
 
 (depends-on "evil")
-(depends-on "magit")
-(depends-on "linum-off")
 (depends-on "hlinum")
+(depends-on "linum-off")
+(depends-on "magit")
 (depends-on "xresources-theme")
 
 (source melpa)
