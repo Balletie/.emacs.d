@@ -92,6 +92,22 @@
     ;; Set default to latexmk
     (add-hook 'LaTeX-mode-hook '(lambda () (setq TeX-command-default "latexmk")))))
 
+(use-package org
+  :defer t
+  ;:commands (org-mode org-indent-mode)
+  :config
+  (progn
+    (setq org-todo-keywords
+	  '((sequence "TODO" "IN-PROGRESS" "DONE")))
+    (let ((yellow (x-get-resource "color3" ""))
+	  (cyan (x-get-resource "color6" ""))
+	  (green (x-get-resource "color2" "")))
+      (setq org-todo-keyword-faces
+	     `(("TODO" :foreground ,yellow :weight bold)
+	       ("IN-PROGRESS" :foreground ,cyan :weight bold)
+	       ("DONE" :foreground ,green :weight bold))))
+    (add-hook 'org-mode-hook 'org-indent-mode)))
+
 (use-package evil
   :init
   (progn
