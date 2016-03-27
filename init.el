@@ -38,10 +38,6 @@
  ;; If there is more than one, they won't work right.
  '(default ((t (:height 90 :family "Dina")))))
 
-;;; All text modes (also AucTeX)
-;; Enable auto-fill mode
-(add-hook 'text-mode-hook 'turn-on-auto-fill)
-
 ;; use Skim as default pdf viewer
 ;; Skim's displayline is used for forward search (from .tex to .pdf)
 ;; option -b highlights the current line; option -g opens Skim in the background
@@ -58,6 +54,14 @@
   :init
   (progn
     (add-hook 'LaTeX-mode-hook 'turn-on-reftex)))
+
+;;; All text modes (also AucTeX)
+;; Enable auto-fill mode
+(use-package auto-fill
+  :defer t
+  :diminish auto-fill-mode
+  :init
+  (add-hook 'text-mode-hook 'turn-on-auto-fill))
 
 (use-package auctex
   :mode ("\\.tex\\'" . latex-mode)
