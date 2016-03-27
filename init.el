@@ -17,7 +17,12 @@
  '(TeX-auto-save t)
  '(TeX-master nil)
  '(TeX-parse-self t)
- '(custom-enabled-themes (quote (wombat)))
+ '(ansi-color-names-vector
+   ["#242424" "#e5786d" "#95e454" "#cae682" "#8ac6f2" "#333366" "#ccaa8f" "#f6f3e8"])
+ '(custom-enabled-themes (quote (xresources)))
+ '(custom-safe-themes
+   (quote
+    ("7d2447bfa3b440e4eb985c6d199afb25c1b71ea8179066b81a09915ebf3aa95e" default)))
  '(evil-want-C-u-scroll t)
  '(global-linum-mode t)
  '(linum-format "%d ")
@@ -31,7 +36,7 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(default ((t (:inherit nil :stipple nil :background "#242424" :foreground "#f6f3e8" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 100 :width normal :foundry "unknown" :family "DejaVu Sans Mono")))))
+ '(default ((t (:height 90 :family "Dina")))))
 
 ;;; All text modes (also AucTeX)
 ;; Enable auto-fill mode

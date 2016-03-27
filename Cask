@@ -5,6 +5,7 @@
 (depends-on "magit")
 (depends-on "linum-off")
 (depends-on "hlinum")
+(depends-on "xresources-theme")
 
 (source melpa)
 
