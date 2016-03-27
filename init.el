@@ -25,6 +25,8 @@
     ("7d2447bfa3b440e4eb985c6d199afb25c1b71ea8179066b81a09915ebf3aa95e" default)))
  '(evil-want-C-u-scroll t)
  '(global-linum-mode t)
+ '(ido-enable-flex-matching t)
+ '(ido-everywhere t)
  '(linum-format "%d ")
  '(magit-diff-refine-hunk t)
  '(org-ellipsis "⤵")
@@ -62,6 +64,10 @@
   :diminish auto-fill-mode
   :init
   (add-hook 'text-mode-hook 'turn-on-auto-fill))
+
+(use-package ido
+  :config
+  (ido-mode 1))
 
 (use-package auctex
   :mode ("\\.tex\\'" . latex-mode)
