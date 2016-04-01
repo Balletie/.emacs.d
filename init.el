@@ -61,7 +61,8 @@
      (320 . "#e78c45")
      (340 . "#e7c547")
      (360 . "#b9ca4a"))))
- '(vc-annotate-very-old-color nil))
+ '(vc-annotate-very-old-color nil)
+ '(vc-handled-backends nil))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
