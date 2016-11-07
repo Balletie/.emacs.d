@@ -24,18 +24,21 @@
    "-I/nix/store/psmdlfqys1031hhyjhky4qphgyscmgdg-gcc-5.4.0/include/c++/5.4.0")
  '(cmake-ide-flags-c++
    "-I/nix/store/psmdlfqys1031hhyjhky4qphgyscmgdg-gcc-5.4.0/include/c++/5.4.0")
- '(custom-enabled-themes (quote (leuven)))
+ '(custom-enabled-themes (quote (sanityinc-tomorrow-night)))
  '(custom-safe-themes
    (quote
-    ("92f826e9660492a15f363891cd9c128eb381ebe2ba1efe804224c895e742bfa2" "82d2cac368ccdec2fcc7573f24c3f79654b78bf133096f9b40c20d97ec1d8016" "1b8d67b43ff1723960eb5e0cba512a2c7a2ad544ddb2533a90101fd1852b426e" "bb08c73af94ee74453c90422485b29e5643b73b05e8de029a6909af6a3fb3f58" "628278136f88aa1a151bb2d6c8a86bf2b7631fbea5f0f76cba2a0079cd910f7d" "06f0b439b62164c6f8f84fdda32b62fb50b6d00e8b01c2208e55543a6337433a" "cdbd2c07cda87348734c588b9d6d300af4e073f7b8158ab1dfba00be84b37ca6" "a1ea1b279f80fdb7868418563bd417faf144ad21dda217a17c52548606adcdd7" default)))
- '(debug-on-error t)
+    ("c74e83f8aa4c78a121b52146eadb792c9facc5b1f02c917e3dbb454fca931223" "a27c00821ccfd5a78b01e4f35dc056706dd9ede09a8b90c6955ae6a390eb1c1e" "3c83b3676d796422704082049fc38b6966bcad960f896669dfc21a7a37a748fa" "92f826e9660492a15f363891cd9c128eb381ebe2ba1efe804224c895e742bfa2" "82d2cac368ccdec2fcc7573f24c3f79654b78bf133096f9b40c20d97ec1d8016" "1b8d67b43ff1723960eb5e0cba512a2c7a2ad544ddb2533a90101fd1852b426e" "bb08c73af94ee74453c90422485b29e5643b73b05e8de029a6909af6a3fb3f58" "628278136f88aa1a151bb2d6c8a86bf2b7631fbea5f0f76cba2a0079cd910f7d" "06f0b439b62164c6f8f84fdda32b62fb50b6d00e8b01c2208e55543a6337433a" "cdbd2c07cda87348734c588b9d6d300af4e073f7b8158ab1dfba00be84b37ca6" "a1ea1b279f80fdb7868418563bd417faf144ad21dda217a17c52548606adcdd7" default)))
+ '(debug-on-error nil)
  '(evil-want-C-u-scroll t)
  '(fci-rule-color "#424242")
+ '(fringe-mode nil nil (fringe))
+ '(gdb-many-windows t)
  '(global-linum-mode t)
- '(linum-format "%d ")
+ '(horizontal-scroll-bar-mode nil)
  '(magit-diff-refine-hunk t)
  '(magit-popup-use-prefix-argument nil)
  '(markdown-preview-style "http://kevinburke.bitbucket.org/markdowncss/markdown.css")
+ '(menu-bar-mode nil)
  '(nix-nixpkgs-path nil)
  '(org-agenda-files
    (quote
@@ -94,6 +97,7 @@
  '(org-latex-prefer-user-labels t)
  '(org-refile-use-outline-path (quote file))
  '(reftex-plug-into-AUCTeX t)
+ '(rm-blacklist (quote (" hl-p" " Undo-Tree" " …")))
  '(safe-local-variable-values
    (quote
     ((org-export-babel-evaluate quote inline-only)
@@ -106,6 +110,15 @@
      (org-refile-targets quote
 			 (("worklog.org" :level . 0)))
      (TeX-engine . xelatex))))
+ '(scroll-bar-mode nil)
+ '(sml/replacer-regexp-list
+   (quote
+    (("^~/Documents/Org/" ":Org:")
+     ("^~/\\.emacs\\.d/elpa/" ":ELPA:")
+     ("^~/\\.emacs\\.d/" ":ED:")
+     ("^/sudo:.*:" ":SU:")
+     ("^~/Documents/" ":Doc:")
+     ("^~/Programming/" ":Prog:"))))
  '(tool-bar-mode nil)
  '(vc-annotate-background nil)
  '(vc-annotate-color-map
@@ -148,6 +161,12 @@
      `(("PDF Viewer" , pdfviewer)))
 (setq debug-on-message "^Wrong")
 
+(eval-when-compile
+  (require 'use-package))
+(setq use-package-verbose t)
+(require 'diminish)                ;; if you use :diminish
+(require 'bind-key)                ;; if you use any :bind variant
+
 (use-package reftex
   :defer t
   :diminish reftex-mode
@@ -175,10 +194,11 @@
   (global-pretty-sha-path-mode))
 
 (use-package rtags
-  :init
-  (require 'rtags))
+  :defer t
+  :commands rtags-find-symbol-at-point)
 
 (use-package flycheck
+  :defer t
   :init
   (progn
     (setq flycheck-command-wrapper-function
@@ -190,6 +210,7 @@
 
 (use-package company
   :diminish company-mode
+  :bind (([M-tab] . company-complete))
   :init
   (progn
     (defun set-sandbox-clang()
@@ -201,82 +222,65 @@
   :config
   (global-company-mode))
 
-;(use-package irony
-;  :diminish irony-mode
-;  :config
-;  (add-hook 'c++-mode-hook 'irony-mode)
-;  (add-hook 'c-mode-hook 'irony-mode))
-
-;(use-package company-irony
-;  :config
-;  (eval-after-load 'company
-;    '(add-to-list 'company-backends 'company-irony)))
-
-;(use-package flycheck-irony
-;  :config
-;  (eval-after-load 'flycheck
-;    '(add-to-list 'flycheck-mode-hook #'flycheck-irony-setup)))
+(use-package c++-mode
+  :mode "\\.tcc\\'")
 
 (use-package cmake-ide
+  :commands (cmake-ide-compile)
   :init
-  (progn
-    (defun set-sandbox-commands()
-      "Sets the make and cmake commands so that they run those of the nix-sandbox."
-      (set (make-local-variable 'cmake-ide-rdm-executable) (nix-executable-find (nix-current-sandbox) "rdm"))
-      (set (make-local-variable 'cmake-ide-cmake-command) (nix-executable-find (nix-current-sandbox) "cmake"))
-      (set (make-local-variable 'cmake-ide-make-command) (nix-executable-find (nix-current-sandbox) "make")))
-    (add-hook 'c-mode-hook #'set-sandbox-commands)
-    (add-hook 'c++-mode-hook #'set-sandbox-commands)
-    (setq cmake-ide-command-wrapper-function
-	  (lambda (command) (apply 'nix-shell-command
-				   (cl-some 'nix-find-sandbox (append (last command) `(,default-directory)))
-				   command))))
+  (defun set-sandbox-commands()
+    "Sets the make and cmake commands so that they run those of the nix-sandbox."
+    (set (make-local-variable 'cmake-ide-rdm-executable) (nix-executable-find (nix-current-sandbox) "rdm"))
+    (set (make-local-variable 'cmake-ide-cmake-command) (nix-executable-find (nix-current-sandbox) "cmake"))
+    (set (make-local-variable 'cmake-ide-make-command) (nix-executable-find (nix-current-sandbox) "make")))
+  (add-hook 'c-mode-hook #'set-sandbox-commands)
+  (add-hook 'c++-mode-hook #'set-sandbox-commands)
+  (setq cmake-ide-command-wrapper-function
+	(lambda (command) (apply 'nix-shell-command
+				 (cl-some 'nix-find-sandbox (append (last command) `(,default-directory)))
+				 command)))
   :config
-  (progn
-    (cmake-ide-setup)))
+  (cmake-ide-setup))
 
 (use-package helm
   :diminish helm-mode
   :bind (("M-x"     . helm-M-x)
 	 ("C-x b"   . helm-mini)
 	 ("C-x C-f" . helm-find-files))
-  :init
-  (require 'helm-config)
   :config
   (helm-mode 1))
 
 (use-package auctex
   :mode ("\\.tex\\'" . latex-mode)
   :init
-  (progn
-    ;; Set path for AucTeX
-    (setenv "PATH"
-	    (concat "/usr/bin/" ":"
-		    "/usr/texbin" ":"
-		    "/usr/local/bin" ":"
-		    "/usr/local/sbin" ":"
-		    (getenv "PATH")))
-    (add-hook 'LaTeX-mode-hook 'visual-line-mode)
-    (add-hook 'LaTeX-mode-hook 'flyspell-mode)
-    (add-hook 'LaTeX-mode-hook 'LaTeX-math-mode)
-    ;; Run latexmk using C-c C-c
-    (add-hook 'LaTeX-mode-hook (lambda ()
-				 (push
-				  '("latexmk" "latexmk %s" TeX-run-TeX nil t
-				    :help "Run latexmk on file")
-				  TeX-command-list)))
-    (add-hook 'LaTeX-mode-hook (lambda ()
-				 (push
-				  '("pdflatexmk" "latexmk -pdf -e \'$pdflatex=q{pdflatex -synctex=1 %O %s.tex}\'" TeX-run-TeX nil t
-				    :help "Run latexmk on file with pdflatex")
-				  TeX-command-list)))
-    (add-hook 'LaTeX-mode-hook (lambda ()
-				 (push
-				  '("xelatexmk" "latexmk -xelatex %s" TeX-run-TeX nil t
-				    :help "Run latexmk on file with xelatex")
-				  TeX-command-list)))
-    ;; Set default to latexmk
-    (add-hook 'LaTeX-mode-hook '(lambda () (setq TeX-command-default "latexmk")))))
+  ;; Set path for AucTeX
+  (setenv "PATH"
+	  (concat "/usr/bin/" ":"
+		  "/usr/texbin" ":"
+		  "/usr/local/bin" ":"
+		  "/usr/local/sbin" ":"
+		  (getenv "PATH")))
+  (add-hook 'LaTeX-mode-hook 'visual-line-mode)
+  (add-hook 'LaTeX-mode-hook 'flyspell-mode)
+  (add-hook 'LaTeX-mode-hook 'LaTeX-math-mode)
+  ;; Run latexmk using C-c C-c
+  (add-hook 'LaTeX-mode-hook (lambda ()
+			       (push
+				'("latexmk" "latexmk %s" TeX-run-TeX nil t
+				  :help "Run latexmk on file")
+				TeX-command-list)))
+  (add-hook 'LaTeX-mode-hook (lambda ()
+			       (push
+				'("pdflatexmk" "latexmk -pdf -e \'$pdflatex=q{pdflatex -synctex=1 %O %s.tex}\'" TeX-run-TeX nil t
+				  :help "Run latexmk on file with pdflatex")
+				TeX-command-list)))
+  (add-hook 'LaTeX-mode-hook (lambda ()
+			       (push
+				'("xelatexmk" "latexmk -xelatex %s" TeX-run-TeX nil t
+				  :help "Run latexmk on file with xelatex")
+				TeX-command-list)))
+  ;; Set default to latexmk
+  (add-hook 'LaTeX-mode-hook '(lambda () (setq TeX-command-default "latexmk"))))
 
 (use-package org
   :defer t
@@ -285,22 +289,13 @@
     (require 'ox-bibtex)
     (setq org-todo-keywords
 	  '((sequence "TODO" "IN-PROGRESS" "DONE")))
-    ;; Set colors of TODO states
-    ; (let ((yellow (x-get-resource "color3" ""))
-    ; 	  (cyan (x-get-resource "color6" ""))
-    ; 	  (green (x-get-resource "color2" "")))
-    ;   (setq org-todo-keyword-faces
-    ; 	     `(("TODO" :foreground ,yellow :weight bold)
-    ; 	       ("IN-PROGRESS" :foreground ,cyan :weight bold)
-    ; 	       ("DONE" :foreground ,green :weight bold))))
     (setq org-todo-keyword-faces
 	  '(("IN-PROGRESS" org-ellipsis)))
     (setq org-capture-templates
 	  '(("t" "Todo" entry (file org-default-notes-file)
 	     "* TODO %? %^g")))
     ;; Enable indent mode
-    (add-hook 'org-mode-hook 'org-indent-mode))
-  )
+    (add-hook 'org-mode-hook 'org-indent-mode)))
 ;; Org-mode agenda key.
 (global-set-key "\C-ca" 'org-agenda)
 
@@ -311,7 +306,20 @@
     (evil-mode 1)))
 
 (use-package magit
+  :defer t
   :bind (("C-x g" . magit-status) ("C-x G" . magit-dispatch-popup)))
+
+(use-package undo-tree
+  :defer t
+  :diminish undo-tree-mode)
+
+(use-package git-gutter-fringe
+  :diminish git-gutter-mode
+  :init
+  (require 'git-gutter-fringe)
+  (setq git-gutter-fr:side 'right-fringe)
+  :config
+  (global-git-gutter-mode))
 
 (use-package linum-off
   :init
@@ -323,3 +331,16 @@
   (progn
     (require 'hlinum)
     (hlinum-activate)))
+
+(use-package smart-mode-line
+  :config
+  (sml/setup)
+  (display-time-mode 1)
+  (display-battery-mode 1)
+  (setq display-time-24hr-format t
+	display-time-day-and-date t
+	display-time-default-load-average nil
+	display-time-load-average-threshold 100 ; Really high, I don't want to ever see it.
+	battery-mode-line-limit 1000
+	battery-update-interval 5
+	sml/battery-format " %p%% "))
