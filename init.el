@@ -161,6 +161,10 @@
      `(("PDF Viewer" , pdfviewer)))
 (setq debug-on-message "^Wrong")
 
+;; Uncomment and use M-x benchmark-init/show-durations-tree to benchmark.
+;(require 'benchmark-init)
+;(benchmark-init/activate)
+
 (eval-when-compile
   (require 'use-package))
 (setq use-package-verbose t)
@@ -183,8 +187,7 @@
   (add-hook 'text-mode-hook 'turn-on-auto-fill))
 
 (use-package nix-sandbox
-  :init
-  (require 'nix-sandbox))
+  :commands (nix-current-sandbox nix-shell-command nix-executable-find))
 
 (use-package pretty-sha-path
   :init
