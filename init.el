@@ -323,7 +323,8 @@
   :diminish git-gutter-mode
   :init
   (require 'git-gutter-fringe)
-  (setq git-gutter-fr:side 'right-fringe)
+  (setq git-gutter-fr:side 'right-fringe
+	git-gutter:update-interval 2)
   :config
   (global-git-gutter-mode))
 
