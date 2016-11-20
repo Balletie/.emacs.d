@@ -100,7 +100,8 @@
  '(rm-blacklist (quote (" hl-p" " Undo-Tree" " …")))
  '(safe-local-variable-values
    (quote
-    ((org-export-babel-evaluate quote inline-only)
+    ((cmake-ide-build-dir . "bin")
+     (org-export-babel-evaluate quote inline-only)
      (org-confirm-babel-evaluate)
      (org-refile-targets
       ("/home/skip/Programming/Spoofax/bep-spoofax-repl/archive.org" :level . 1))
@@ -196,10 +197,6 @@
   :config
   (global-pretty-sha-path-mode))
 
-(use-package rtags
-  :defer t
-  :commands rtags-find-symbol-at-point)
-
 (use-package flycheck
   :defer t
   :init
@@ -214,6 +211,7 @@
 (use-package company
   :diminish company-mode
   :bind (([M-tab] . company-complete))
+  :demand t
   :init
   (progn
     (defun set-sandbox-clang()
@@ -229,21 +227,26 @@
   :mode "\\.tcc\\'")
 
 (use-package cmake-ide
-  :commands (cmake-ide-compile)
+  :defer t
   :init
   (defun set-sandbox-commands()
     "Sets the make and cmake commands so that they run those of the nix-sandbox."
     (set (make-local-variable 'cmake-ide-rdm-executable) (nix-executable-find (nix-current-sandbox) "rdm"))
     (set (make-local-variable 'cmake-ide-cmake-command) (nix-executable-find (nix-current-sandbox) "cmake"))
     (set (make-local-variable 'cmake-ide-make-command) (nix-executable-find (nix-current-sandbox) "make")))
+  (autoload 'cmake-ide--mode-hook "cmake-ide" nil nil)
+  (autoload 'cmake-ide--before-save "cmake-ide" nil nil)
   (add-hook 'c-mode-hook #'set-sandbox-commands)
+  (add-hook 'c-mode-hook #'cmake-ide--mode-hook)
   (add-hook 'c++-mode-hook #'set-sandbox-commands)
+  (add-hook 'c++-mode-hook #'cmake-ide--mode-hook)
+  (add-hook 'before-save-hook #'cmake-ide--before-save)
   (setq cmake-ide-command-wrapper-function
 	(lambda (command) (apply 'nix-shell-command
 				 (cl-some 'nix-find-sandbox (append (last command) `(,default-directory)))
 				 command)))
   :config
-  (cmake-ide-setup))
+  (require 'rtags))
 
 (use-package helm
   :diminish helm-mode
