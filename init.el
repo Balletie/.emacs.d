@@ -20,6 +20,7 @@
  '(ansi-color-names-vector
    ["#242424" "#e5786d" "#95e454" "#cae682" "#8ac6f2" "#333366" "#ccaa8f" "#f6f3e8"])
  '(browse-url-browser-function (quote browse-url-generic))
+ '(browse-url-generic-program "firefox")
  '(cmake-ide-flags-c
    "-I/nix/store/psmdlfqys1031hhyjhky4qphgyscmgdg-gcc-5.4.0/include/c++/5.4.0")
  '(cmake-ide-flags-c++
@@ -60,7 +61,7 @@
    (quote
     ((auto-mode . emacs)
      ("\\.mm\\'" . default)
-     ("\\.x?html?\\'" . "surf %s")
+     ("\\.x?html?\\'" . "firefox %s")
      ("\\.pdf\\'" . default))))
  '(org-html-mathjax-options
    (quote
