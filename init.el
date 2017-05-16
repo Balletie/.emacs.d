@@ -232,27 +232,34 @@
 (use-package c++-mode
   :mode "\\.tcc\\'")
 
-(use-package cmake-ide
-  :defer t
-  :init
-  (defun set-sandbox-commands()
-    "Sets the make and cmake commands so that they run those of the nix-sandbox."
-    (set (make-local-variable 'cmake-ide-rdm-executable) (nix-executable-find (nix-current-sandbox) "rdm"))
-    (set (make-local-variable 'cmake-ide-cmake-command) (nix-executable-find (nix-current-sandbox) "cmake"))
-    (set (make-local-variable 'cmake-ide-make-command) (nix-executable-find (nix-current-sandbox) "make")))
-  (autoload 'cmake-ide--mode-hook "cmake-ide" nil nil)
-  (autoload 'cmake-ide--before-save "cmake-ide" nil nil)
-  (add-hook 'c-mode-hook #'set-sandbox-commands)
-  (add-hook 'c-mode-hook #'cmake-ide--mode-hook)
-  (add-hook 'c++-mode-hook #'set-sandbox-commands)
-  (add-hook 'c++-mode-hook #'cmake-ide--mode-hook)
-  (add-hook 'before-save-hook #'cmake-ide--before-save)
-  (setq cmake-ide-command-wrapper-function
-	(lambda (command) (apply 'nix-shell-command
-				 (cl-some 'nix-find-sandbox (append (last command) `(,default-directory)))
-				 command)))
+					; (use-package cmake-ide
+					;   :defer t
+					;   :init
+					;   (defun set-sandbox-commands()
+					;     "Sets the make and cmake commands so that they run those of the nix-sandbox."
+					;     (set (make-local-variable 'cmake-ide-rdm-executable) (nix-executable-find (nix-current-sandbox) "rdm"))
+					;     (set (make-local-variable 'cmake-ide-cmake-command) (nix-executable-find (nix-current-sandbox) "cmake"))
+					;     (set (make-local-variable 'cmake-ide-make-command) (nix-executable-find (nix-current-sandbox) "make")))
+					;   (autoload 'cmake-ide--mode-hook "cmake-ide" nil nil)
+					;   (autoload 'cmake-ide--before-save "cmake-ide" nil nil)
+					;   (add-hook 'c-mode-hook #'set-sandbox-commands)
+					;   (add-hook 'c-mode-hook #'cmake-ide--mode-hook)
+					;   (add-hook 'c++-mode-hook #'set-sandbox-commands)
+					;   (add-hook 'c++-mode-hook #'cmake-ide--mode-hook)
+					;   (add-hook 'before-save-hook (lambda () (when (or (eq major-mode 'c++-mode) (eq major-mode 'c-mode))
+					; 					   (cmake-ide--before-save))))
+					;   (setq cmake-ide-command-wrapper-function
+					; 	(lambda (command) (apply 'nix-shell-command
+					; 				 (cl-some 'nix-find-sandbox (append (last command) `(,default-directory)))
+					; 				 command)))
+					;   :config
+					;   (require 'rtags))
+
+(use-package projectile
+  :diminish projectile-mode
   :config
-  (require 'rtags))
+  (setq projectile-enable-caching t)
+  (projectile-global-mode))
 
 (use-package helm
   :diminish helm-mode
@@ -261,6 +268,13 @@
 	 ("C-x C-f" . helm-find-files))
   :config
   (helm-mode 1))
+
+(use-package helm-projectile
+  :commands (helm-projectile)
+  :config
+  (setq projectile-completion-system 'helm
+	projectile-switch-project-action 'helm-projectile)
+  (helm-projectile-on))
 
 (use-package auctex
   :mode ("\\.tex\\'" . latex-mode)
