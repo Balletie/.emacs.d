@@ -32,11 +32,16 @@
  '(debug-on-error nil)
  '(doc-view-continuous t)
  '(doc-view-pdfdraw-program "mutool draw")
+ '(evil-emacs-state-modes
+   (quote
+    (archive-mode bbdb-mode bookmark-bmenu-mode bookmark-edit-annotation-mode browse-kill-ring-mode bzr-annotate-mode calc-mode cfw:calendar-mode completion-list-mode Custom-mode debugger-mode delicious-search-mode desktop-menu-blist-mode desktop-menu-mode doc-view-mode dvc-bookmarks-mode dvc-diff-mode dvc-info-buffer-mode dvc-log-buffer-mode dvc-revlist-mode dvc-revlog-mode dvc-status-mode dvc-tips-mode ediff-mode ediff-meta-mode efs-mode Electric-buffer-menu-mode emms-browser-mode emms-mark-mode emms-metaplaylist-mode emms-playlist-mode etags-select-mode exwm-mode fj-mode gc-issues-mode gdb-breakpoints-mode gdb-disassembly-mode gdb-frames-mode gdb-locals-mode gdb-memory-mode gdb-registers-mode gdb-threads-mode gist-list-mode git-commit-mode gnus-article-mode gnus-browse-mode gnus-group-mode gnus-server-mode gnus-summary-mode google-maps-static-mode ibuffer-mode jde-javadoc-checker-report-mode magit-cherry-mode magit-diff-mode magit-log-mode magit-log-select-mode magit-popup-mode magit-popup-sequence-mode magit-process-mode magit-reflog-mode magit-refs-mode magit-revision-mode magit-stash-mode magit-stashes-mode magit-status-mode magit-mode magit-branch-manager-mode magit-commit-mode magit-key-mode magit-rebase-mode magit-wazzup-mode mh-folder-mode monky-mode mu4e-main-mode mu4e-headers-mode mu4e-view-mode notmuch-hello-mode notmuch-search-mode notmuch-show-mode occur-mode org-agenda-mode package-menu-mode proced-mode rcirc-mode rebase-mode recentf-dialog-mode reftex-select-bib-mode reftex-select-label-mode reftex-toc-mode sldb-mode slime-inspector-mode slime-thread-control-mode slime-xref-mode sr-buttons-mode sr-mode sr-tree-mode sr-virtual-mode tar-mode tetris-mode tla-annotate-mode tla-archive-list-mode tla-bconfig-mode tla-bookmarks-mode tla-branch-list-mode tla-browse-mode tla-category-list-mode tla-changelog-mode tla-follow-symlinks-mode tla-inventory-file-mode tla-inventory-mode tla-lint-mode tla-logs-mode tla-revision-list-mode tla-revlog-mode tla-tree-lint-mode tla-version-list-mode twittering-mode urlview-mode vc-annotate-mode vc-dir-mode vc-git-log-view-mode vc-hg-log-view-mode vc-svn-log-view-mode vm-mode vm-summary-mode w3m-mode wab-compilation-mode xgit-annotate-mode xgit-changelog-mode xgit-diff-mode xgit-revlog-mode xhg-annotate-mode xhg-log-mode xhg-mode xhg-mq-mode xhg-mq-sub-mode xhg-status-extra-mode)))
  '(evil-want-C-u-scroll t)
  '(fci-rule-color "#424242")
  '(fringe-mode nil nil (fringe))
  '(gdb-many-windows t)
  '(global-linum-mode t)
+ '(haskell-indent-spaces 4)
+ '(helm-external-programs-associations (quote (("html" . "firefox"))))
  '(horizontal-scroll-bar-mode nil)
  '(linum-disabled-modes-list
    (quote
@@ -49,7 +54,12 @@
  '(org-agenda-files
    (quote
     ("~/Programming/Spoofax/bep-spoofax-repl/trello.org" "~/Programming/Spoofax/bep-spoofax-repl/user-stories.org")))
- '(org-babel-load-languages (quote ((shell . t) (python . t) (ruby . t))))
+ '(org-babel-load-languages
+   (quote
+    ((shell . t)
+     (python . t)
+     (ruby . t)
+     (emacs-lisp . t))))
  '(org-babel-lob-files (quote ("/home/skip/Pictures/amaravati/album.org")))
  '(org-babel-python-command "python3")
  '(org-checkbox-hierarchical-statistics t)
@@ -102,11 +112,14 @@
       ("\\subsubsection{%s}" . "\\subsubsection*{%s}")))))
  '(org-latex-prefer-user-labels t)
  '(org-refile-use-outline-path (quote file))
+ '(password-cache-expiry 60)
  '(reftex-plug-into-AUCTeX t)
  '(rm-blacklist (quote (" hl-p" " Undo-Tree" " …")))
  '(safe-local-variable-values
    (quote
-    ((cmake-ide-build-dir . "bin")
+    ((org-trello-files quote
+		       ("./trello.org"))
+     (cmake-ide-build-dir . "bin")
      (org-export-babel-evaluate quote inline-only)
      (org-confirm-babel-evaluate)
      (org-refile-targets
@@ -117,6 +130,7 @@
      (org-refile-targets quote
 			 (("worklog.org" :level . 0)))
      (TeX-engine . xelatex))))
+ '(savehist-mode t)
  '(scroll-bar-mode nil)
  '(sml/replacer-regexp-list
    (quote
@@ -169,8 +183,8 @@
 (setq debug-on-message "^Wrong")
 
 ;; Uncomment and use M-x benchmark-init/show-durations-tree to benchmark.
-;(require 'benchmark-init)
-;(benchmark-init/activate)
+(require 'benchmark-init)
+(benchmark-init/activate)
 
 (eval-when-compile
   (require 'use-package))
@@ -230,30 +244,48 @@
   (global-company-mode))
 
 (use-package c++-mode
-  :mode "\\.tcc\\'")
+  :mode ("\\.tcc\\'"
+	 "\\.tpp\\'"))
 
-					; (use-package cmake-ide
-					;   :defer t
-					;   :init
-					;   (defun set-sandbox-commands()
-					;     "Sets the make and cmake commands so that they run those of the nix-sandbox."
-					;     (set (make-local-variable 'cmake-ide-rdm-executable) (nix-executable-find (nix-current-sandbox) "rdm"))
-					;     (set (make-local-variable 'cmake-ide-cmake-command) (nix-executable-find (nix-current-sandbox) "cmake"))
-					;     (set (make-local-variable 'cmake-ide-make-command) (nix-executable-find (nix-current-sandbox) "make")))
-					;   (autoload 'cmake-ide--mode-hook "cmake-ide" nil nil)
-					;   (autoload 'cmake-ide--before-save "cmake-ide" nil nil)
-					;   (add-hook 'c-mode-hook #'set-sandbox-commands)
-					;   (add-hook 'c-mode-hook #'cmake-ide--mode-hook)
-					;   (add-hook 'c++-mode-hook #'set-sandbox-commands)
-					;   (add-hook 'c++-mode-hook #'cmake-ide--mode-hook)
-					;   (add-hook 'before-save-hook (lambda () (when (or (eq major-mode 'c++-mode) (eq major-mode 'c-mode))
-					; 					   (cmake-ide--before-save))))
-					;   (setq cmake-ide-command-wrapper-function
-					; 	(lambda (command) (apply 'nix-shell-command
-					; 				 (cl-some 'nix-find-sandbox (append (last command) `(,default-directory)))
-					; 				 command)))
-					;   :config
-					;   (require 'rtags))
+(use-package cmake-ide
+  :defer t
+  :init
+  (defun nix-compile-advice (orig-fun &rest args)
+    (apply orig-fun (apply 'nix-shell-command (nix-current-sandbox) args)))
+  (defun nix-process-advice (orig-fun proc-name proc-buf &rest args)
+    (nix-compile-advice (lambda (&rest args) (apply orig-fun proc-name proc-buf args))))
+
+  (defun run-in-nix-shell (orig-fun &rest args)
+    (advice-add 'compile :around #'nix-compile-advice)
+    (advice-add 'start-process :around #'nix-process-advice)
+    (unwind-protect
+	(apply orig-fun args)
+      (advice-remove 'compile #'nix-compile-advice)
+      (advice-remove 'start-process #'nix-process-advice)))
+
+  (autoload 'cmake-ide--mode-hook "cmake-ide" nil nil)
+  (autoload 'cmake-ide--before-save "cmake-ide" nil nil)
+  (advice-add 'cmake-ide-run-cmake :around #'run-in-nix-shell)
+  (advice-add 'cmake-ide-maybe-start-rdm :around #'run-in-nix-shell)
+  (advice-add 'cmake-ide-compile :around #'run-in-nix-shell)
+  (add-hook 'c-mode-hook #'cmake-ide--mode-hook)
+  (add-hook 'c-mode-hook #'cmake-ide--mode-hook)
+  (add-hook 'before-save-hook (lambda () (when (or (eq major-mode 'c++-mode)
+						   (eq major-mode 'c-mode))
+					   (cmake-ide--before-save))))
+  :config
+  (require 'rtags))
+
+(use-package web-mode
+  :mode ("\\.html?\\'"
+	 "\\.css\\'"
+	 "\\.phtml\\'"
+	 "\\.tpl\\.php\\'"
+	 "\\.[agj]sp\\'"
+	 "\\.as[cp]x\\'"
+	 "\\.erb\\'"
+	 "\\.mustache\\'"
+	 "\\.djhtml\\'"))
 
 (use-package projectile
   :diminish projectile-mode
