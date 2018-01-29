@@ -428,7 +428,67 @@
 (use-package popwin
   :init
   (require 'popwin)
-  (popwin-mode 1))
+  (popwin-mode 1)
+  :config
+  (defun projectile-popwin-eshell ()
+    (interactive)
+    (popwin:display-buffer-1
+     (save-window-excursion
+       (call-interactively 'projectile-run-eshell))
+     :default-config-keywords '(:position :top)))
+  (defun popwin-eshell ()
+    (interactive)
+    (popwin:display-buffer-1
+     (save-window-excursion
+       (call-interactively 'eshell))
+     :default-config-keywords '(:position :top :stick t)))
+  (bind-key "x e" 'projectile-popwin-eshell projectile-command-map)
+  (bind-key "C-c x e" 'popwin-eshell))
+
+(use-package eshell
+  :defer t
+  :config
+
+  (defun pwd-replace-home (pwd)
+    "Replace home in PWD with tilde (~) character."
+    (interactive)
+    (let* ((home (expand-file-name (getenv "HOME")))
+	   (home-len (length home)))
+      (if (and
+	   (>= (length pwd) home-len)
+	   (equal home (substring pwd 0 home-len)))
+	  (concat "~" (substring pwd home-len))
+	pwd)))
+  (defun git-branch (pwd)
+    (interactive)
+    (when (and (not (file-remote-p pwd))
+	       (locate-dominating-file pwd ".git"))
+      (let ((branch (shell-command-to-string "printf %s \"$(git rev-parse --abbrev-ref HEAD)\""))
+	    (git-icon (propertize "\xf126" 'face '(:family "FontAwesome" :inherit font-lock-function-name-face)))
+	    (git-face font-lock-keyword-face))
+	(concat " ("
+		git-icon
+		" "
+		(propertize branch 'face git-face)
+		")"))))
+  (defun eshell/my-eshell-prompt ()
+    (let* ((pwd (pwd-replace-home (eshell/pwd)))
+	   (name (user-login-name))
+	   (host (system-name))
+	   (name-face '(:inherit font-lock-negation-char-face :weight ultra-bold))
+	   (dir-face '(:inherit default :weight ultra-bold)))
+      (concat
+       (propertize name 'face name-face)
+       "@"
+       host
+       " "
+       (propertize pwd 'face dir-face)
+       (git-branch pwd)
+       " "
+       (propertize (if (= (user-uid) 0) "#" "$") 'face '(:weight ultra-bold))
+       (propertize " " 'face 'default))))
+
+  (setq-default eshell-prompt-function #'eshell/my-eshell-prompt))
 
 (use-package doc-view
   :defer t
