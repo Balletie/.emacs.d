@@ -368,6 +368,12 @@
     (require 'evil)
     (evil-mode 1)))
 
+(use-package evil-goggles
+  :diminish evil-goggles-mode
+  :config
+  (evil-goggles-mode)
+  (evil-goggles-use-diff-faces))
+
 (use-package magit
   :defer t
   :bind (("C-x g" . magit-status) ("C-x G" . magit-dispatch-popup)))
