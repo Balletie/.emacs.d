@@ -185,15 +185,16 @@
      `(("PDF Viewer" , pdfviewer)))
 (setq debug-on-message "^Wrong")
 
-;; Uncomment and use M-x benchmark-init/show-durations-tree to benchmark.
-(require 'benchmark-init)
-(benchmark-init/activate)
-
 (eval-when-compile
   (require 'use-package))
 (setq use-package-verbose t)
 (require 'diminish)                ;; if you use :diminish
 (require 'bind-key)                ;; if you use any :bind variant
+
+;; Use M-x benchmark-init/show-durations-tree to show benchmark results.
+(use-package benchmark-init
+  :config
+  (add-hook 'after-init-hook 'benchmark-init/deactivate))
 
 (use-package reftex
   :defer t
