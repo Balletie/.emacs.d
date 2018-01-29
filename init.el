@@ -25,7 +25,6 @@
    "-I/nix/store/psmdlfqys1031hhyjhky4qphgyscmgdg-gcc-5.4.0/include/c++/5.4.0")
  '(cmake-ide-flags-c++
    "-I/nix/store/psmdlfqys1031hhyjhky4qphgyscmgdg-gcc-5.4.0/include/c++/5.4.0")
- '(custom-enabled-themes (quote (sanityinc-tomorrow-night)))
  '(custom-safe-themes
    (quote
     ("c74e83f8aa4c78a121b52146eadb792c9facc5b1f02c917e3dbb454fca931223" "a27c00821ccfd5a78b01e4f35dc056706dd9ede09a8b90c6955ae6a390eb1c1e" "3c83b3676d796422704082049fc38b6966bcad960f896669dfc21a7a37a748fa" "92f826e9660492a15f363891cd9c128eb381ebe2ba1efe804224c895e742bfa2" "82d2cac368ccdec2fcc7573f24c3f79654b78bf133096f9b40c20d97ec1d8016" "1b8d67b43ff1723960eb5e0cba512a2c7a2ad544ddb2533a90101fd1852b426e" "bb08c73af94ee74453c90422485b29e5643b73b05e8de029a6909af6a3fb3f58" "628278136f88aa1a151bb2d6c8a86bf2b7631fbea5f0f76cba2a0079cd910f7d" "06f0b439b62164c6f8f84fdda32b62fb50b6d00e8b01c2208e55543a6337433a" "cdbd2c07cda87348734c588b9d6d300af4e073f7b8158ab1dfba00be84b37ca6" "a1ea1b279f80fdb7868418563bd417faf144ad21dda217a17c52548606adcdd7" default)))
@@ -64,7 +63,6 @@
  '(org-babel-python-command "python3")
  '(org-checkbox-hierarchical-statistics t)
  '(org-default-notes-file "~/Documents/Org/todo.org")
- '(org-ellipsis "⤵")
  '(org-export-with-smart-quotes t)
  '(org-export-with-statistics-cookies t)
  '(org-file-apps
@@ -169,7 +167,12 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(default ((t (:height 90 :family "Dina")))))
+ '(evil-goggles-delete-face ((t (:inherit (quote diff-removed)))))
+ '(evil-goggles-paste-face ((t (:inherit (quote diff-added)))))
+ '(evil-goggles-undo-redo-add-face ((t (:inherit (quote diff-refine-added)))))
+ '(evil-goggles-undo-redo-change-face ((t (:inherit diff-changed))))
+ '(evil-goggles-undo-redo-remove-face ((t (:inherit (quote diff-refine-removed)))))
+ '(evil-goggles-yank-face ((t (:inherit (quote diff-changed))))))
 
 ;; use Skim as default pdf viewer
 ;; Skim's displayline is used for forward search (from .tex to .pdf)
@@ -343,19 +346,27 @@
 (use-package org
   :defer t
   :config
-  (progn
-    (require 'ox-bibtex)
-    (setq org-todo-keywords
-	  '((sequence "TODO" "IN-PROGRESS" "DONE")))
-    (setq org-todo-keyword-faces
-	  '(("IN-PROGRESS" org-ellipsis)))
-    (setq org-capture-templates
-	  '(("t" "Todo" entry (file org-default-notes-file)
-	     "* TODO %? %^g")))
-    ;; Enable indent mode
-    (add-hook 'org-mode-hook 'org-indent-mode)))
+  (require 'ox-bibtex)
+  (setq org-todo-keywords
+	'((sequence "TODO" "IN-PROGRESS" "DONE")))
+  (setq org-todo-keyword-faces
+	'(("IN-PROGRESS" org-ellipsis)))
+  (setq org-capture-templates
+	'(("t" "Todo" entry (file org-default-notes-file)
+	   "* TODO %? %^g")))
+  (setq org-ellipsis "…")
+  ;; Enable indent mode
+  (add-hook 'org-mode-hook 'org-indent-mode))
 ;; Org-mode agenda key.
 (global-set-key "\C-ca" 'org-agenda)
+
+(use-package org-bullets
+  :defer t
+  :init
+  (add-hook 'org-mode-hook 'org-bullets-mode))
+
+(use-package org-beautify
+  :defer t )
 
 (use-package evil
   :init
@@ -425,3 +436,40 @@
 	      ("<up>" . doc-view-previous-page))
   :init
   (set-window-fringes (selected-window) 0 0))
+
+(defvar my-fixed-font "Iosevka" "Fixed width font for programming modes")
+(set-frame-font my-fixed-font)
+(set-face-attribute 'default nil :family my-fixed-font :height 100)
+
+(deftheme my-org-theme "Subtheme for org-mode")
+
+(defun my-change-theme ()
+  (let ((headline-face '(default))
+	(primary-color (face-foreground 'mode-line))
+	(highlight-bg (face-background 'secondary-selection nil 'region))
+	(low-contrast-bg (face-background 'linum)))
+    (custom-theme-set-faces 'my-org-theme
+			    `(org-agenda-structure ((t (,@headline-face :height 2.0 :underline nil))))
+			    `(org-level-8 ((t (:inherit (outline-8 ,@headline-face)))))
+			    `(org-level-7 ((t (:inherit (outline-7 ,@headline-face)))))
+			    `(org-level-6 ((t (:inherit (outline-6 ,@headline-face)))))
+			    `(org-level-5 ((t (:inherit (outline-5 ,@headline-face)))))
+			    `(org-level-4 ((t (:inherit (outline-4 ,@headline-face)))))
+			    `(org-level-3 ((t (:inherit (outline-3 ,@headline-face)))))
+			    `(org-level-2 ((t (:inherit (outline-2 ,@headline-face) :height 1.25))))
+			    `(org-level-1 ((t (:inherit (outline-1 ,@headline-face) :height 1.5 :background ,highlight-bg))))
+			    `(org-ellipsis ((t (:box (:line-width 1 :color ,highlight-bg) :foreground ,primary-color :background ,low-contrast-bg))))
+			    `(org-document-title ((t (:inherit org-level-1 :height 1.25 :underline nil))))
+			    `(org-checkbox ((t (:foreground ,primary-color :background ,highlight-bg :weight bold :box (:line-width 1 :style released-button))))))))
+
+(defvar after-load-theme-hook nil
+  "Hook run after a color theme is loaded using `load-theme'.")
+
+(defun load-theme--after-load-theme-run-hook (&optional args)
+  (run-hooks 'after-load-theme-hook))
+
+(advice-add 'load-theme :after 'load-theme--after-load-theme-run-hook)
+
+(add-hook 'after-load-theme-hook #'my-change-theme)
+
+(color-theme-sanityinc-tomorrow-blue)
