@@ -448,7 +448,7 @@
 (use-package eshell
   :defer t
   :config
-
+  (add-to-list 'direnv-non-file-modes 'eshell-mode)
   (defun pwd-replace-home (pwd)
     "Replace home in PWD with tilde (~) character."
     (interactive)
