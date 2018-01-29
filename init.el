@@ -409,6 +409,17 @@
 	sml/pos-id-separator ""
 	sml/pre-modes-separator ""))
 
+(use-package tramp
+  :config
+  (defun is-current-file-tramp ()
+    (tramp-tramp-file-p (buffer-file-name (current-buffer))))
+  ;; Tramp disable auto-save and backup.
+  (add-hook
+   'find-file-hook
+   (lambda () (if (is-current-file-tramp)
+		  (progn (setq-local make-backup-files nil)
+	  		 (setq-local auto-save-default nil))))))
+
 (use-package avy
   :bind (("C-," . avy-goto-char-2)
 	 ("C-;" . avy-goto-word-1)
