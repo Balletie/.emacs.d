@@ -404,7 +404,10 @@
 	display-time-load-average-threshold 100 ; Really high, I don't want to ever see it.
 	battery-mode-line-limit 1000
 	battery-update-interval 5
-	sml/battery-format " %p%% "))
+	sml/battery-format " %p%% "
+	sml/mule-info nil
+	sml/pos-id-separator ""
+	sml/pre-modes-separator ""))
 
 (use-package avy
   :bind (("C-," . avy-goto-char-2)
