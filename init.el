@@ -15,6 +15,9 @@
  '(TeX-auto-save t)
  '(TeX-master nil)
  '(TeX-parse-self t)
+ '(aggressive-indent-excluded-modes
+   (quote
+    (inf-ruby-mode makefile-mode makefile-gmake-mode python-mode text-mode yaml-mode nix-mode haskell-mode)))
  '(ansi-color-faces-vector
    [default bold shadow italic underline bold bold-italic bold])
  '(ansi-color-names-vector
@@ -36,6 +39,7 @@
     (archive-mode bbdb-mode bookmark-bmenu-mode bookmark-edit-annotation-mode browse-kill-ring-mode bzr-annotate-mode calc-mode cfw:calendar-mode completion-list-mode Custom-mode debugger-mode delicious-search-mode desktop-menu-blist-mode desktop-menu-mode doc-view-mode dvc-bookmarks-mode dvc-diff-mode dvc-info-buffer-mode dvc-log-buffer-mode dvc-revlist-mode dvc-revlog-mode dvc-status-mode dvc-tips-mode ediff-mode ediff-meta-mode efs-mode Electric-buffer-menu-mode emms-browser-mode emms-mark-mode emms-metaplaylist-mode emms-playlist-mode etags-select-mode exwm-mode fj-mode gc-issues-mode gdb-breakpoints-mode gdb-disassembly-mode gdb-frames-mode gdb-locals-mode gdb-memory-mode gdb-registers-mode gdb-threads-mode gist-list-mode git-commit-mode gnus-article-mode gnus-browse-mode gnus-group-mode gnus-server-mode gnus-summary-mode google-maps-static-mode ibuffer-mode jde-javadoc-checker-report-mode magit-cherry-mode magit-diff-mode magit-log-mode magit-log-select-mode magit-popup-mode magit-popup-sequence-mode magit-process-mode magit-reflog-mode magit-refs-mode magit-revision-mode magit-stash-mode magit-stashes-mode magit-status-mode magit-mode magit-branch-manager-mode magit-commit-mode magit-key-mode magit-rebase-mode magit-wazzup-mode mh-folder-mode monky-mode mu4e-main-mode mu4e-headers-mode mu4e-view-mode notmuch-hello-mode notmuch-search-mode notmuch-show-mode occur-mode org-agenda-mode package-menu-mode proced-mode rcirc-mode rebase-mode recentf-dialog-mode reftex-select-bib-mode reftex-select-label-mode reftex-toc-mode sldb-mode slime-inspector-mode slime-thread-control-mode slime-xref-mode sr-buttons-mode sr-mode sr-tree-mode sr-virtual-mode tar-mode tetris-mode tla-annotate-mode tla-archive-list-mode tla-bconfig-mode tla-bookmarks-mode tla-branch-list-mode tla-browse-mode tla-category-list-mode tla-changelog-mode tla-follow-symlinks-mode tla-inventory-file-mode tla-inventory-mode tla-lint-mode tla-logs-mode tla-revision-list-mode tla-revlog-mode tla-tree-lint-mode tla-version-list-mode twittering-mode urlview-mode vc-annotate-mode vc-dir-mode vc-git-log-view-mode vc-hg-log-view-mode vc-svn-log-view-mode vm-mode vm-summary-mode w3m-mode wab-compilation-mode xgit-annotate-mode xgit-changelog-mode xgit-diff-mode xgit-revlog-mode xhg-annotate-mode xhg-log-mode xhg-mode xhg-mq-mode xhg-mq-sub-mode xhg-status-extra-mode)))
  '(evil-want-C-u-scroll t)
  '(fci-rule-color "#424242")
+ '(flycheck-color-mode-line-face-to-color (quote mode-line-buffer-id))
  '(fringe-mode nil nil (fringe))
  '(gdb-many-windows t)
  '(global-linum-mode t)
@@ -50,9 +54,7 @@
  '(markdown-preview-style "http://kevinburke.bitbucket.org/markdowncss/markdown.css")
  '(menu-bar-mode nil)
  '(nix-nixpkgs-path nil)
- '(org-agenda-files
-   (quote
-    ("~/Programming/Spoofax/bep-spoofax-repl/trello.org" "~/Programming/Spoofax/bep-spoofax-repl/user-stories.org")))
+ '(org-agenda-files (quote ("~/Documents/Org/todo.org")))
  '(org-babel-load-languages
    (quote
     ((shell . t)
@@ -115,7 +117,8 @@
  '(rm-blacklist (quote (" hl-p" " Undo-Tree" " …")))
  '(safe-local-variable-values
    (quote
-    ((org-trello-files quote
+    ((org-duration-format . h:mm)
+     (org-trello-files quote
 		       ("./trello.org"))
      (cmake-ide-build-dir . "bin")
      (org-export-babel-evaluate quote inline-only)
@@ -196,6 +199,12 @@
   :config
   (add-hook 'after-init-hook 'benchmark-init/deactivate))
 
+;; Colorize compilation output (http://stackoverflow.com/a/3072831)
+(require 'ansi-color)
+(defun colorize-compilation-buffer ()
+  (let ((inhibit-read-only t))
+    (ansi-color-apply-on-region (point-min) (point-max))))
+(add-hook 'compilation-filter-hook 'colorize-compilation-buffer)
 
 (use-package direnv
   :diminish direnv-mode
