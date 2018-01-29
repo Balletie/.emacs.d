@@ -382,15 +382,6 @@
   :defer t
   :diminish undo-tree-mode)
 
-(use-package git-gutter-fringe
-  :diminish git-gutter-mode
-  :init
-  (require 'git-gutter-fringe)
-  (setq git-gutter-fr:side 'right-fringe
-	git-gutter:update-interval 2)
-  :config
-  (global-git-gutter-mode))
-
 (use-package linum-off
   :init
   (progn
