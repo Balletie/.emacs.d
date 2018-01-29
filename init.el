@@ -291,7 +291,10 @@
 (use-package projectile
   :diminish projectile-mode
   :config
-  (setq projectile-enable-caching t)
+  (setq projectile-enable-caching t
+	projectile-completion-system 'helm
+	projectile-switch-project-action 'helm-projectile)
+  (helm-projectile-on)
   (projectile-global-mode))
 
 (use-package helm
@@ -301,13 +304,6 @@
 	 ("C-x C-f" . helm-find-files))
   :config
   (helm-mode 1))
-
-(use-package helm-projectile
-  :commands (helm-projectile)
-  :config
-  (setq projectile-completion-system 'helm
-	projectile-switch-project-action 'helm-projectile)
-  (helm-projectile-on))
 
 (use-package auctex
   :mode ("\\.tex\\'" . latex-mode)
