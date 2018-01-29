@@ -196,6 +196,14 @@
   :config
   (add-hook 'after-init-hook 'benchmark-init/deactivate))
 
+
+(use-package direnv
+  :diminish direnv-mode
+  :config
+  (setq direnv-always-show-summary t
+	direnv-show-paths-in-summary nil)
+  (direnv-mode))
+
 (use-package reftex
   :defer t
   :diminish reftex-mode
