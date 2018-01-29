@@ -239,74 +239,54 @@
   (global-pretty-sha-path-mode))
 
 (use-package flycheck
-  :defer t
-  :init
-  (progn
-    (setq flycheck-command-wrapper-function
-	  (lambda (command) (apply 'nix-shell-command (nix-current-sandbox) command))
-	  flycheck-executable-find
-	  (lambda (cmd) (nix-executable-find (nix-current-sandbox) cmd)))
-    (add-hook 'c++-mode-hook 'flycheck-mode)
-    (add-hook 'c-mode-hook 'flycheck-mode)))
+  :defer t)
 
 (use-package company
   :diminish company-mode
   :bind (([M-tab] . company-complete))
   :demand t
-  :init
-  (progn
-    (defun set-sandbox-clang()
-      "Sets the clang executable to the one of the sandbox"
-      (setq company-clang-executable (nix-executable-find (nix-current-sandbox) "clang"))
-      (make-local-variable 'company-clang-executable))
-    (add-hook 'c-mode-hook #'set-sandbox-clang)
-    (add-hook 'c++-mode-hook #'set-sandbox-clang))
   :config
   (global-company-mode))
+
+(use-package company-jedi
+  :config
+  (add-hook 'python-mode-hook 'jedi:setup)
+  (setq jedi:complete-on-dot t)
+  (defun python-add-company-backend ()
+    (add-to-list 'company-backends 'company-jedi))
+  (add-hook 'python-mode-hook 'python-add-company-backend))
 
 (use-package c++-mode
   :mode ("\\.tcc\\'"
 	 "\\.tpp\\'"))
 
-(use-package cmake-ide
-  :defer t
-  :init
-  (defun nix-compile-advice (orig-fun &rest args)
-    (apply orig-fun (apply 'nix-shell-command (nix-current-sandbox) args)))
-  (defun nix-process-advice (orig-fun proc-name proc-buf &rest args)
-    (nix-compile-advice (lambda (&rest args) (apply orig-fun proc-name proc-buf args))))
-
-  (defun run-in-nix-shell (orig-fun &rest args)
-    (advice-add 'compile :around #'nix-compile-advice)
-    (advice-add 'start-process :around #'nix-process-advice)
-    (unwind-protect
-	(apply orig-fun args)
-      (advice-remove 'compile #'nix-compile-advice)
-      (advice-remove 'start-process #'nix-process-advice)))
-
-  (autoload 'cmake-ide--mode-hook "cmake-ide" nil nil)
-  (autoload 'cmake-ide--before-save "cmake-ide" nil nil)
-  (advice-add 'cmake-ide-run-cmake :around #'run-in-nix-shell)
-  (advice-add 'cmake-ide-maybe-start-rdm :around #'run-in-nix-shell)
-  (advice-add 'cmake-ide-compile :around #'run-in-nix-shell)
-  (add-hook 'c-mode-hook #'cmake-ide--mode-hook)
-  (add-hook 'c-mode-hook #'cmake-ide--mode-hook)
-  (add-hook 'before-save-hook (lambda () (when (or (eq major-mode 'c++-mode)
-						   (eq major-mode 'c-mode))
-					   (cmake-ide--before-save))))
-  :config
-  (require 'rtags))
+(use-package php-mode
+  :defer t)
 
 (use-package web-mode
   :mode ("\\.html?\\'"
 	 "\\.css\\'"
 	 "\\.phtml\\'"
-	 "\\.tpl\\.php\\'"
+	 "\\.php\\'"
 	 "\\.[agj]sp\\'"
 	 "\\.as[cp]x\\'"
 	 "\\.erb\\'"
 	 "\\.mustache\\'"
 	 "\\.djhtml\\'"))
+
+(use-package haskell-mode
+  :mode ("\\.hs\\'"
+	 "\\.lhs\\'"))
+(use-package dante
+  :after haskell-mode
+  :defer t
+  :commands 'dante-mode
+  :init
+  (add-hook 'haskell-mode-hook 'dante-mode)
+  (add-hook 'haskell-mode-hook 'flycheck-mode)
+  (add-hook 'dante-mode-hook
+	    '(lambda () (flycheck-add-next-checker 'haskell-dante
+						   '(warning . haskell-hlint)))))
 
 (use-package projectile
   :diminish projectile-mode
