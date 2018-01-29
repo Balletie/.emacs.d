@@ -414,10 +414,6 @@
   (require 'popwin)
   (popwin-mode 1))
 
-(use-package aggressive-indent
-  :init
-  (add-hook 'prog-mode-hook #'aggressive-indent-mode))
-
 (use-package doc-view
   :defer t
   :bind (:map doc-view-mode-map
