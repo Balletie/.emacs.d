@@ -464,6 +464,7 @@
   :config
   (defun is-current-file-tramp ()
     (tramp-tramp-file-p (buffer-file-name (current-buffer))))
+  (add-to-list 'tramp-remote-path 'tramp-own-remote-path)
   ;; Tramp disable auto-save and backup.
   (add-hook
    'find-file-hook
@@ -477,29 +478,42 @@
 	 ("C-'" . avy-isearch)))
 
 (use-package popwin
+  :after projectile
   :init
   (require 'popwin)
   (popwin-mode 1)
   :config
-  (defun projectile-popwin-eshell ()
-    (interactive)
+  (defun projectile-popwin-eshell (&optional rest)
+    (interactive "P")
     (popwin:display-buffer-1
      (save-window-excursion
-       (call-interactively 'projectile-run-eshell))
+       ;; Adapted from projectile to use universal argument.
+       (let ((eshell-buffer-name (concat "*eshell " (projectile-project-name) "*")))
+	 (projectile-with-default-dir (projectile-project-root)
+	   (call-interactively #'eshell))))
      :default-config-keywords '(:position :top)))
-  (defun popwin-eshell ()
-    (interactive)
+  (defun popwin-eshell (&optional rest)
+    (interactive "P")
     (popwin:display-buffer-1
      (save-window-excursion
-       (call-interactively 'eshell))
-     :default-config-keywords '(:position :top :stick t)))
+       (call-interactively #'eshell))
+     :default-config-keywords '(:position :top)))
   (bind-key "x e" 'projectile-popwin-eshell projectile-command-map)
   (bind-key "C-c x e" 'popwin-eshell))
 
 (use-package eshell
   :defer t
   :config
-  (add-to-list 'direnv-non-file-modes 'eshell-mode)
+  (setq eshell-history-size 100000)
+  ;; Fix direnv for eshell-mode
+  ;; Add to "non-file-modes" so that direnv updates environment
+  (when (boundp 'direnv-non-file-modes)
+    (add-to-list 'direnv-non-file-modes 'eshell-mode))
+  ;; Maybe update environment if we change directory.
+  (defun shell-cd--after-maybe-update-direnv-environment ()
+    (direnv--maybe-update-environment))
+  (advice-add 'shell-cd :after 'shell-cd--after-maybe-update-direnv-environment)
+
   (defun pwd-replace-home (pwd)
     "Replace home in PWD with tilde (~) character."
     (interactive)
