@@ -283,6 +283,17 @@
 (use-package php-mode
   :defer t)
 
+(use-package nix-mode
+  :mode ("\\.nix\\'"))
+
+(use-package nix-prettify-mode
+  :config
+  (global-nix-prettify-mode))
+
+;; Uncomment when nix-update is in nixpkgs
+;; (use-package nix-update
+;;   :bind (("C-. u" . nix-update-fetch)))
+
 (use-package web-mode
   :mode ("\\.html?\\'"
 	 "\\.css\\'"
