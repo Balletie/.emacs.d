@@ -253,16 +253,6 @@
   :init
   (add-hook 'text-mode-hook 'turn-on-auto-fill))
 
-(use-package nix-sandbox
-  :commands (nix-current-sandbox nix-shell-command nix-executable-find))
-
-(use-package pretty-sha-path
-  :init
-  (autoload 'pretty-sha-path-mode "pretty-sha-path" nil t)
-  (autoload 'global-pretty-sha-path-mode "pretty-sha-path" nil t)
-  :config
-  (global-pretty-sha-path-mode))
-
 (use-package flycheck
   :defer t)
 
@@ -407,16 +397,7 @@
   :defer t
   :diminish undo-tree-mode)
 
-(use-package linum-off
-  :init
-  (progn
-    (require 'linum-off)))
 
-(use-package hlinum
-  :init
-  (progn
-    (require 'hlinum)
-    (hlinum-activate)))
 
 (use-package smart-mode-line
   :config
