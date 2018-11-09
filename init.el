@@ -231,8 +231,12 @@
     (ansi-color-apply-on-region (point-min) (point-max))))
 (add-hook 'compilation-filter-hook 'colorize-compilation-buffer)
 
+(use-package display-line-numbers-mode
+  :hook (prog-mode . display-line-numbers-mode))
+
 (use-package direnv
   :diminish direnv-mode
+  :defer t
   :config
   (setq direnv-always-show-summary t
 	direnv-show-paths-in-summary nil)
@@ -254,7 +258,9 @@
   (add-hook 'text-mode-hook 'turn-on-auto-fill))
 
 (use-package flycheck
-  :defer t)
+  :defer t
+  :init
+  (add-hook 'python-mode-hook 'flycheck-mode))
 
 (use-package company
   :diminish company-mode
@@ -264,12 +270,11 @@
   (global-company-mode))
 
 (use-package company-jedi
+  :hook (python-mode . (lambda ()
+			 (jedi:setup)
+			 (setq-local company-backends '((company-jedi :with company-yasnippet)))))
   :config
-  (add-hook 'python-mode-hook 'jedi:setup)
-  (setq jedi:complete-on-dot t)
-  (defun python-add-company-backend ()
-    (add-to-list 'company-backends 'company-jedi))
-  (add-hook 'python-mode-hook 'python-add-company-backend))
+  (setq jedi:complete-on-dot t))
 
 (use-package c++-mode
   :mode ("\\.tcc\\'"
@@ -292,6 +297,7 @@
 (use-package haskell-mode
   :mode ("\\.hs\\'"
 	 "\\.lhs\\'"))
+
 (use-package dante
   :after haskell-mode
   :defer t
@@ -303,8 +309,13 @@
 	    '(lambda () (flycheck-add-next-checker 'haskell-dante
 						   '(warning . haskell-hlint)))))
 
+(use-package yasnippet
+  :init
+  (yas-global-mode 1))
+
 (use-package projectile
   :diminish projectile-mode
+  :bind-keymap ("C-c p" . projectile-command-map)
   :config
   (setq projectile-enable-caching t
 	projectile-completion-system 'helm
@@ -393,11 +404,16 @@
   :defer t
   :bind (("C-x g" . magit-status) ("C-x G" . magit-dispatch-popup)))
 
+(use-package with-editor
+  :commands (with-editor-export-editor with-editor-shell-command with-editor-async-shell-command)
+  :init
+  (dolist (hook '(shell-mode-hook term-exec-hook eshell-mode-hook))
+    (dolist (envvar '("EDITOR" "GIT_EDITOR"))
+      (add-hook hook (apply-partially #'with-editor-export-editor envvar)))))
+
 (use-package undo-tree
   :defer t
   :diminish undo-tree-mode)
-
-
 
 (use-package smart-mode-line
   :config
@@ -544,3 +560,4 @@
 (add-hook 'after-load-theme-hook #'my-change-theme)
 
 (color-theme-sanityinc-tomorrow-blue)
+(put 'narrow-to-page 'disabled nil)
