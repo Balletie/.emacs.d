@@ -375,21 +375,39 @@
   (add-hook 'LaTeX-mode-hook '(lambda () (setq TeX-command-default "latexmk"))))
 
 (use-package org
+  :bind (("C-c c" . org-capture)
+	 ("C-c a" . org-agenda))
   :defer t
   :config
   (require 'ox-bibtex)
   (setq org-todo-keywords
-	'((sequence "TODO" "IN-PROGRESS" "DONE")))
+	'((sequence "TODO(t)" "IN-PROGRESS(i)" "|" "CANCELLED(c)" "DONE(d)")))
   (setq org-todo-keyword-faces
-	'(("IN-PROGRESS" org-ellipsis)))
+	'(("IN-PROGRESS" font-lock-function-name-face)
+	  ("CANCELLED" font-lock-constant-face)))
+  (setq org-default-notes-file "~/Documents/Org/refile.org")
+  (setq org-agenda-files '("~/Documents/Org/"))
+  (setq org-directory "~/Documents/Org/")
+
+  (require 'org-mobile)
+  (setq org-mobile-directory "~/Documents/MobileOrg/")
+  (setq org-mobile-inbox-for-pull "~/Documents/Org/mobile-inbox.org")
+  
+  ;; Capture
   (setq org-capture-templates
 	'(("t" "Todo" entry (file org-default-notes-file)
-	   "* TODO %? %^g")))
+	   "* TODO %?\n%U\n%i")))
+
+  ;; Refiling
+  (setq org-refile-targets '((nil :maxlevel . 9)
+			     (org-agenda-files :maxlevel . 9)))
+  (setq org-refile-allow-creating-parent-nodes 'confirm)
+  (setq org-refile-use-outline-path 'file)
+  (setq org-outline-path-complete-in-steps nil)
+
   (setq org-ellipsis "…")
   ;; Enable indent mode
   (add-hook 'org-mode-hook 'org-indent-mode))
-;; Org-mode agenda key.
-(global-set-key "\C-ca" 'org-agenda)
 
 (use-package org-bullets
   :defer t
