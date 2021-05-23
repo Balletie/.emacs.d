@@ -27,7 +27,10 @@
 (eval-and-compile ; `borg'
   (add-to-list 'load-path (expand-file-name "lib/borg" user-emacs-directory))
   (require 'borg)
-  (borg-initialize))
+  (borg-initialize)
+  (setq borg-rewrite-urls-alist
+      '(("git@github.com:" . "https://github.com/")
+        ("git@gitlab.com:" . "https://gitlab.com/"))))
 
 (progn ;    `use-package'
   (require  'use-package)
@@ -44,6 +47,9 @@
   (setq auto-compile-toggle-deletes-nonlib-dest   t)
   (setq auto-compile-update-autoloads             t))
 
+(use-package no-littering
+  :demand t)
+
 (use-package epkg
   :defer t
   :init (setq epkg-repository
@@ -52,7 +58,7 @@
 (use-package custom
   :no-require t
   :config
-  (setq custom-file (expand-file-name "custom.el" user-emacs-directory))
+  (setq custom-file (no-littering-expand-etc-file-name "custom.el"))
   (when (file-exists-p custom-file)
     (load custom-file)))
 
@@ -65,7 +71,50 @@
            (float-time (time-subtract (current-time)
                                       before-user-init-time))))
 
+(progn ; `map-ynp'
+  ;; Make all "yes or no" prompts show "y or n" instead
+  (setq read-answer-short t)
+  (fset 'yes-or-no-p 'y-or-n-p))
+
+(use-package modus-themes
+  :demand t
+  :init
+  (setq modus-themes-mode-line 'moody)
+  (setq modus-themes-bold-constructs t)
+  (setq modus-themes-completions 'opinionated)
+  (setq modus-themes-org-blocks 'greyscale)
+
+  (setq modus-themes-headings
+        '((1 . highlight) ; make h1 stand out with a background
+          (2 . line)      ; add a line above h2
+          (t . rainbow))) ; choose a random color for all headings
+
+  (setq modus-themes-scale-headings t)
+  (setq modus-themes-slanted-constructs t)
+  (setq modus-themes-variable-pitch-headings t)
+  :config
+  (modus-themes-load-vivendi))
+
+(use-package moody
+  :demand t
+  :config
+  (setq x-underline-at-descent-line t)
+  (moody-replace-mode-line-buffer-identification)
+  (moody-replace-vc-mode))
+
 ;;; Long tail
+
+(use-package avy
+  :bind (("C-," . avy-goto-char-2)
+	 ("C-;" . avy-goto-word-1)
+	 ("C-'" . avy-isearch)))
+
+(use-package counsel-dash
+  :bind (("C-x C-h d" . counsel-dash)
+         ("C-x C-h i" . counsel-dash-at-point))
+  :config
+  (setq dash-docs-enable-debugging nil
+        dash-docs-common-docsets (list "SQLite" "JavaScript" "Flask" "Sass" "svelte" "HTML" "Python 3")))
 
 (use-package dash
   :config (global-dash-fontify-mode 1))
@@ -88,9 +137,38 @@
   :defer t
   :config (setq dired-listing-switches "-alh"))
 
+(use-package direnv
+  :defer t
+  :config
+  (setq direnv-always-show-summary t
+	direnv-show-paths-in-summary nil)
+  (direnv-mode))
+
+(use-package display-line-numbers
+  :hook ((prog-mode text-mode) . display-line-numbers-mode))
+
 (use-package eldoc
   :when (version< "25" emacs-version)
   :config (global-eldoc-mode))
+
+(use-package evil
+  :init
+  (setq evil-want-keybinding nil
+        evil-want-integration t
+        evil-undo-system 'undo-fu)
+  :config
+  (evil-mode 1))
+
+(use-package evil-collection
+  :after evil
+  :config
+  (evil-collection-init))
+
+(use-package evil-goggles
+  :diminish evil-goggles-mode
+  :config
+  (evil-goggles-mode)
+  (evil-goggles-use-diff-faces))
 
 (use-package help
   :defer t
@@ -98,6 +176,10 @@
 
 (progn ;    `isearch'
   (setq isearch-allow-scroll t))
+
+(use-package ivy
+  :config
+  (ivy-mode 1))
 
 (use-package lisp-mode
   :config
@@ -110,6 +192,7 @@
 (use-package magit
   :defer t
   :commands (magit-add-section-hook)
+  :bind (("C-x g" . magit-status) ("C-x G" . magit-dispatch-popup))
   :config
   (magit-add-section-hook 'magit-status-sections-hook
                           'magit-insert-modules
@@ -120,6 +203,22 @@
   :defer t
   :config (setq Man-width 80))
 
+(use-package marginalia
+  :demand t
+  :bind (
+         :map minibuffer-local-map
+         ("M-A" . marginalia-cycle))
+  :config
+  (progn
+    (marginalia-mode)))
+
+(use-package nix-mode
+  :mode ("\\.nix\\'"))
+
+(use-package nix-prettify-mode
+  :config
+  (global-nix-prettify-mode))
+
 (use-package paren
   :config (show-paren-mode))
 
@@ -128,6 +227,14 @@
   (defun indicate-buffer-boundaries-left ()
     (setq indicate-buffer-boundaries 'left))
   (add-hook 'prog-mode-hook 'indicate-buffer-boundaries-left))
+
+(use-package projectile
+  :diminish projectile-mode
+  :bind-keymap ("C-c p" . projectile-command-map)
+  :config
+  (setq projectile-enable-caching t)
+  (setq projectile-completion-system 'ivy)
+  (projectile-global-mode))
 
 (use-package recentf
   :demand t
@@ -169,6 +276,24 @@
   :defer t
   :config (cl-pushnew 'tramp-own-remote-path tramp-remote-path))
 
+(use-package with-editor
+  :commands (with-editor-export-editor with-editor-shell-command with-editor-async-shell-command)
+  :init
+  (shell-command-with-editor-mode)
+  (dolist (hook '(shell-mode-hook term-exec-hook eshell-mode-hook))
+    (dolist (envvar '("EDITOR" "GIT_EDITOR"))
+      (add-hook hook (apply-partially #'with-editor-export-editor envvar)))))
+
+(use-package web-mode
+  :mode ("\\.html?\\'"
+	 "\\.css\\'"
+	 "\\.phtml\\'"
+	 "\\.php\\'"
+	 "\\.[agj]sp\\'"
+	 "\\.as[cp]x\\'"
+	 "\\.erb\\'"
+	 "\\.mustache\\'"))
+
 (progn ;     startup
   (message "Loading %s...done (%.3fs)" user-init-file
            (float-time (time-subtract (current-time)
@@ -186,7 +311,6 @@
                                 user-emacs-directory)))
     (when (file-exists-p file)
       (load file))))
-
 ;; Local Variables:
 ;; indent-tabs-mode: nil
 ;; End:

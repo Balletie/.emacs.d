@@ -1,22 +1,40 @@
 [borg]
 	pushDefault = locutus
 	collective = emacsg
+[submodule "annalist"]
+	path = lib/annalist
+	url = git@github.com:noctuid/annalist.el.git
+[submodule "async"]
+	path = lib/async
+	url = https://github.com/jwiegley/emacs-async.git
 [submodule "auto-compile"]
 	path = lib/auto-compile
 	url = git@github.com:emacscollective/auto-compile.git
+[submodule "avy"]
+	path = lib/avy
+	url = git@github.com:abo-abo/avy.git
 [submodule "borg"]
 	path = lib/borg
 	url = git@github.com:emacscollective/borg.git
 [submodule "closql"]
 	path = lib/closql
 	url = git@github.com:emacscollective/closql.git
+[submodule "counsel-dash"]
+	path = lib/counsel-dash
+	url = https://github.com/dash-docs-el/counsel-dash.git
 [submodule "dash"]
 	path = lib/dash
 	url = git@github.com:magnars/dash.el.git
 	no-makeinfo = dash-template.texi
+[submodule "dash-docs"]
+	path = lib/dash-docs
+	url = https://github.com/dash-docs-el/dash-docs.git
 [submodule "diff-hl"]
 	path = lib/diff-hl
 	url = git@github.com:dgutov/diff-hl.git
+[submodule "direnv"]
+	path = lib/direnv
+	url = https://github.com/wbolster/emacs-direnv.git
 [submodule "emacsql"]
 	path = lib/emacsql
 	url = git@github.com:skeeto/emacsql.git
@@ -24,17 +42,50 @@
 [submodule "epkg"]
 	path = lib/epkg
 	url = git@github.com:emacscollective/epkg.git
+[submodule "evil"]
+	path = lib/evil
+	url = git@github.com:emacs-evil/evil.git
+[submodule "evil-collection"]
+	path = lib/evil-collection
+	url = git@github.com:emacs-evil/evil-collection.git
+[submodule "evil-goggles"]
+	path = lib/evil-goggles
+	url = https://github.com/edkolev/evil-goggles.git
 [submodule "git-modes"]
 	path = lib/git-modes
 	url = git@github.com:magit/git-modes.git
+[submodule "hydra"]
+	path = lib/hydra
+	url = git@github.com:abo-abo/hydra.git
+[submodule "ivy"]
+	path = lib/ivy
+	url = git@github.com:abo-abo/swiper.git
 [submodule "magit"]
 	path = lib/magit
 	url = git@github.com:magit/magit.git
 	recursive-byte-compile = true
 	info-path = Documentation
+[submodule "marginalia"]
+	path = lib/marginalia
+	url = https://github.com/minad/marginalia.git
+[submodule "modus-themes"]
+	path = lib/modus-themes
+	url = https://gitlab.com/protesilaos/modus-themes.git
+[submodule "moody"]
+	path = lib/moody
+	url = https://github.com/tarsius/moody.git
+[submodule "nix-mode"]
+	path = lib/nix-mode
+	url = git@github.com:NixOS/nix-mode.git
+[submodule "no-littering"]
+	path = lib/no-littering
+	url = git@github.com:emacscollective/no-littering.git
 [submodule "packed"]
 	path = lib/packed
 	url = git@github.com:emacscollective/packed.git
+[submodule "projectile"]
+	path = lib/projectile
+	url = git@github.com:bbatsov/projectile.git
 [submodule "transient"]
 	path = lib/transient
 	url = git@github.com:magit/transient.git
@@ -42,9 +93,15 @@
 [submodule "treepy"]
 	path = lib/treepy
 	url = git@github.com:volrath/treepy.el.git
+[submodule "undo-fu"]
+	path = lib/undo-fu
+	url = https://gitlab.com/ideasman42/emacs-undo-fu.git
 [submodule "use-package"]
 	path = lib/use-package
 	url = git@github.com:jwiegley/use-package.git
+[submodule "web-mode"]
+	path = lib/web-mode
+	url = https://github.com/fxbois/web-mode.git
 [submodule "with-editor"]
 	path = lib/with-editor
 	url = git@github.com:magit/with-editor.git
