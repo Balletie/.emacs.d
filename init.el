@@ -109,6 +109,9 @@
 	 ("C-;" . avy-goto-word-1)
 	 ("C-'" . avy-isearch)))
 
+(use-package autorevert
+  :diminish auto-revert-mode)
+
 (use-package counsel-dash
   :bind (("C-x C-h d" . counsel-dash)
          ("C-x C-h i" . counsel-dash-at-point))
@@ -142,6 +145,7 @@
   :config
   (setq direnv-always-show-summary t
 	direnv-show-paths-in-summary nil)
+  (add-hook 'prog-mode-hook #'direnv--maybe-update-environment)
   (direnv-mode))
 
 (use-package display-line-numbers
@@ -150,6 +154,11 @@
 (use-package eldoc
   :when (version< "25" emacs-version)
   :config (global-eldoc-mode))
+
+(use-package elpy
+  :defer t
+  :init
+  (advice-add 'python-mode :before 'elpy-enable))
 
 (use-package evil
   :init
@@ -161,6 +170,7 @@
 
 (use-package evil-collection
   :after evil
+  :diminish evil-collection-unimpaired-mode
   :config
   (evil-collection-init))
 
@@ -178,6 +188,7 @@
   (setq isearch-allow-scroll t))
 
 (use-package ivy
+  :diminish ivy-mode
   :config
   (ivy-mode 1))
 
@@ -216,6 +227,7 @@
   :mode ("\\.nix\\'"))
 
 (use-package nix-prettify-mode
+  :diminish nix-prettify-mode
   :config
   (global-nix-prettify-mode))
 

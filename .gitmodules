@@ -10,6 +10,9 @@
 [submodule "auto-compile"]
 	path = lib/auto-compile
 	url = git@github.com:emacscollective/auto-compile.git
+[submodule "auto-complete"]
+	path = lib/auto-complete
+	url = https://github.com/auto-complete/auto-complete.git
 [submodule "avy"]
 	path = lib/avy
 	url = git@github.com:abo-abo/avy.git
@@ -19,6 +22,9 @@
 [submodule "closql"]
 	path = lib/closql
 	url = git@github.com:emacscollective/closql.git
+[submodule "company"]
+	path = lib/company
+	url = https://github.com/company-mode/company-mode.git
 [submodule "counsel-dash"]
 	path = lib/counsel-dash
 	url = https://github.com/dash-docs-el/counsel-dash.git
@@ -32,13 +38,22 @@
 [submodule "diff-hl"]
 	path = lib/diff-hl
 	url = git@github.com:dgutov/diff-hl.git
+[submodule "diminish"]
+	path = lib/diminish
+	url = https://github.com/myrjola/diminish.el.git
 [submodule "direnv"]
 	path = lib/direnv
 	url = https://github.com/wbolster/emacs-direnv.git
+[submodule "elpy"]
+	path = lib/elpy
+	url = https://github.com/jorgenschaefer/elpy.git
 [submodule "emacsql"]
 	path = lib/emacsql
 	url = git@github.com:skeeto/emacsql.git
 	no-byte-compile = emacsql-pg.el
+[submodule "epc"]
+	path = lib/epc
+	url = https://github.com/kiwanami/emacs-epc.git
 [submodule "epkg"]
 	path = lib/epkg
 	url = git@github.com:emacscollective/epkg.git
@@ -54,12 +69,18 @@
 [submodule "git-modes"]
 	path = lib/git-modes
 	url = git@github.com:magit/git-modes.git
+[submodule "highlight-indentation"]
+	path = lib/highlight-indentation
+	url = https://github.com/antonj/Highlight-Indentation-for-Emacs.git
 [submodule "hydra"]
 	path = lib/hydra
 	url = git@github.com:abo-abo/hydra.git
 [submodule "ivy"]
 	path = lib/ivy
 	url = git@github.com:abo-abo/swiper.git
+[submodule "jedi"]
+	path = lib/jedi
+	url = https://github.com/tkf/emacs-jedi.git
 [submodule "magit"]
 	path = lib/magit
 	url = git@github.com:magit/magit.git
@@ -86,6 +107,12 @@
 [submodule "projectile"]
 	path = lib/projectile
 	url = git@github.com:bbatsov/projectile.git
+[submodule "pyvenv"]
+	path = lib/pyvenv
+	url = https://github.com/jorgenschaefer/pyvenv.git
+[submodule "s"]
+	path = lib/s
+	url = https://github.com/magnars/s.el.git
 [submodule "transient"]
 	path = lib/transient
 	url = git@github.com:magit/transient.git
@@ -105,3 +132,6 @@
 [submodule "with-editor"]
 	path = lib/with-editor
 	url = git@github.com:magit/with-editor.git
+[submodule "yasnippet"]
+	path = lib/yasnippet
+	url = https://github.com/joaotavora/yasnippet.git
