@@ -158,7 +158,9 @@
 (use-package elpy
   :defer t
   :init
-  (advice-add 'python-mode :before 'elpy-enable))
+  (advice-add 'python-mode :before 'elpy-enable)
+  :config
+  (setq elpy-rpc-virtualenv-path (no-littering-expand-var-file-name "elpy/rpc-venv/")))
 
 (use-package evil
   :init
