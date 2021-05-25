@@ -79,7 +79,7 @@
 (use-package modus-themes
   :demand t
   :init
-  (setq modus-themes-mode-line 'moody)
+  (setq modus-themes-mode-line 'borderless-moody)
   (setq modus-themes-bold-constructs t)
   (setq modus-themes-completions 'opinionated)
   (setq modus-themes-org-blocks 'greyscale)
@@ -93,7 +93,16 @@
   (setq modus-themes-slanted-constructs t)
   (setq modus-themes-variable-pitch-headings t)
   :config
-  (modus-themes-load-vivendi))
+  (modus-themes-load-operandi))
+
+(use-package frame
+  :config
+  (setq frame-title-format "Emacs (%b)")
+  (when (window-system)
+    (add-to-list 'default-frame-alist '(cursor-type bar . 5))
+    (set-face-attribute 'default nil :family "Iosevka Term" :width 'regular :height 104)
+    (set-face-attribute 'fixed-pitch nil :family "Iosevka Term" :width 'regular :height 104)
+    (set-face-attribute 'variable-pitch nil :font "Cantarell")))
 
 (use-package moody
   :demand t
@@ -118,9 +127,6 @@
   :config
   (setq dash-docs-enable-debugging nil
         dash-docs-common-docsets (list "SQLite" "JavaScript" "Flask" "Sass" "svelte" "HTML" "Python 3")))
-
-(use-package dash
-  :config (global-dash-fontify-mode 1))
 
 (use-package diff-hl
   :config
@@ -237,7 +243,7 @@
   :config (show-paren-mode))
 
 (use-package prog-mode
-  :config (global-prettify-symbols-mode)
+  :config
   (defun indicate-buffer-boundaries-left ()
     (setq indicate-buffer-boundaries 'left))
   (add-hook 'prog-mode-hook 'indicate-buffer-boundaries-left))
