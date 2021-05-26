@@ -211,7 +211,7 @@
 (use-package magit
   :defer t
   :commands (magit-add-section-hook)
-  :bind (("C-x g" . magit-status) ("C-x G" . magit-dispatch-popup))
+  :bind (("C-x g" . magit-status) ("C-x G" . magit-dispatch))
   :config
   (magit-add-section-hook 'magit-status-sections-hook
                           'magit-insert-modules
@@ -237,7 +237,7 @@
 (use-package nix-prettify-mode
   :diminish nix-prettify-mode
   :config
-  (global-nix-prettify-mode))
+  (nix-prettify-global-mode))
 
 (use-package paren
   :config (show-paren-mode))
@@ -254,7 +254,7 @@
   :config
   (setq projectile-enable-caching t)
   (setq projectile-completion-system 'ivy)
-  (projectile-global-mode))
+  (projectile-mode))
 
 (use-package recentf
   :demand t
