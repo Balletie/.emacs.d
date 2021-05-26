@@ -98,11 +98,9 @@
 (use-package frame
   :config
   (setq frame-title-format "Emacs (%b)")
-  (when (window-system)
-    (add-to-list 'default-frame-alist '(cursor-type bar . 5))
-    (set-face-attribute 'default nil :family "Iosevka Term" :width 'regular :height 104)
-    (set-face-attribute 'fixed-pitch nil :family "Iosevka Term" :width 'regular :height 104)
-    (set-face-attribute 'variable-pitch nil :font "Cantarell")))
+  (set-face-attribute 'default nil :family "Iosevka Term" :width 'regular :height 104)
+  (set-face-attribute 'fixed-pitch nil :family "Iosevka Term" :width 'regular :height 104)
+  (set-face-attribute 'variable-pitch nil :font "Cantarell"))
 
 (use-package moody
   :demand t
