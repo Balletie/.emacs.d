@@ -196,7 +196,9 @@
 (use-package ivy
   :diminish ivy-mode
   :config
-  (ivy-mode 1))
+  (ivy-mode 1)
+  (setq ivy-use-virtual-buffers t
+        ivy-count-format "(%d/%d) "))
 
 (use-package lisp-mode
   :config
