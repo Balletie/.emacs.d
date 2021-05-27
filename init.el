@@ -105,7 +105,7 @@
 (use-package moody
   :demand t
   :config
-  ;; Some stuff from Damien's init.el
+  ;; Adapted from Damien's init.el
   (defvar my/mode-line-mule-info
     '(:eval (unless (eq buffer-file-coding-system
                         (default-value 'buffer-file-coding-system))
@@ -113,21 +113,22 @@
   (put 'my/mode-line-mule-info 'risky-local-variable t)
   (make-variable-buffer-local 'my/mode-line-mule-info)
 
-  (defvar my/mode-line-client "")
-
   (defvar my/mode-line-position
     (list mode-line-percent-position " %l:%c "))
 
-  (defvar my/mode-line-modified
-    '(:eval (if (buffer-modified-p (current-buffer)) "x " "  ")))
-  (put 'my/mode-line-modified 'risky-local-variable t)
-  (make-variable-buffer-local 'my/mode-line-modified)
+  (defvar my/mode-line-buffer-identification
+    '(:eval (moody-tab (let* ((mode-line (propertized-buffer-identification "%b"))
+                              (mode-line (format-mode-line mode-line)))
+                         (when (buffer-modified-p (current-buffer))
+                           (add-face-text-property 0 (length mode-line) '(:slant italic)
+                                                   nil mode-line))
+                         mode-line)
+                       20 'down)))
+  (put 'my/mode-line-buffer-identification 'risky-local-variable t)
+  (make-variable-buffer-local 'my/mode-line-buffer-identification)
 
   (setq x-underline-at-descent-line t)
-  (moody-replace-element 'mode-line-mule-info 'my/mode-line-mule-info)
-  (moody-replace-element 'mode-line-client 'my/mode-line-client)
-  (moody-replace-element 'mode-line-modified 'my/mode-line-modified)
-  (moody-replace-element 'mode-line-position 'my/mode-line-position)
+
   (setq evil-emacs-state-tag    (propertize " EMACS   " 'face 'modus-themes-refine-red)
         evil-insert-state-tag   (propertize " INSERT  " 'face 'modus-themes-refine-green)
         evil-replace-state-tag  (propertize " REPLACE " 'face 'modus-themes-refine-yellow)
@@ -137,8 +138,16 @@
         evil-visual-block-tag   (propertize " V-BLOCK " 'face 'modus-themes-refine-blue)
         evil-operator-state-tag (propertize " PENDING " 'face 'modus-themes-refine-neutral))
   (setq evil-mode-line-format '(before . mode-line-front-space))
-  (moody-replace-mode-line-buffer-identification)
-  (moody-replace-vc-mode))
+
+  ;(moody-replace-mode-line-buffer-identification)
+  (moody-replace-element 'mode-line-mule-info 'my/mode-line-mule-info)
+  (moody-replace-element 'mode-line-position 'my/mode-line-position)
+  (moody-replace-element 'mode-line-buffer-identification 'my/mode-line-buffer-identification)
+  (moody-replace-vc-mode)
+
+  (setq mode-line-format (delq 'mode-line-remote mode-line-format))
+  (setq mode-line-format (delq 'mode-line-modified mode-line-format))
+  (setq mode-line-format (delq 'mode-line-client mode-line-format)))
 
 ;;; Long tail
 
