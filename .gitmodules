@@ -78,6 +78,7 @@
 [submodule "ivy"]
 	path = lib/ivy
 	url = git@github.com:abo-abo/swiper.git
+	info-path = doc
 [submodule "jedi"]
 	path = lib/jedi
 	url = https://github.com/tkf/emacs-jedi.git

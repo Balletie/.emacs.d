@@ -234,9 +234,10 @@
   (setq isearch-allow-scroll t))
 
 (use-package ivy
-  :diminish ivy-mode
+  :diminish (ivy-mode counsel-mode)
   :config
   (ivy-mode 1)
+  (counsel-mode 1)
   (setq ivy-use-virtual-buffers t
         ivy-count-format "(%d/%d) "))
 
