@@ -119,6 +119,9 @@
   (defvar my/mode-line-buffer-identification
     '(:eval (moody-tab (let* ((mode-line (propertized-buffer-identification "%b"))
                               (mode-line (format-mode-line mode-line)))
+                         (when (and buffer-file-name buffer-read-only)
+                           (add-face-text-property 0 (length mode-line) '(:foreground "red")
+                                                   nil mode-line))
                          (when (buffer-modified-p (current-buffer))
                            (add-face-text-property 0 (length mode-line) '(:slant italic)
                                                    nil mode-line))
