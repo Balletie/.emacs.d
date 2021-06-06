@@ -60,6 +60,7 @@
 [submodule "evil"]
 	path = lib/evil
 	url = git@github.com:emacs-evil/evil.git
+	info-path = doc/build/texinfo
 [submodule "evil-collection"]
 	path = lib/evil-collection
 	url = git@github.com:emacs-evil/evil-collection.git
