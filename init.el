@@ -25,6 +25,7 @@
   (menu-bar-mode 0))
 
 (eval-and-compile ; `borg'
+  (add-to-list 'load-path (expand-file-name "usr" user-emacs-directory))
   (add-to-list 'load-path (expand-file-name "lib/borg" user-emacs-directory))
   (require 'borg)
   (borg-initialize)
@@ -282,6 +283,8 @@
   :diminish nix-prettify-mode
   :config
   (nix-prettify-global-mode))
+
+(use-package pali)
 
 (use-package paren
   :config (show-paren-mode))
