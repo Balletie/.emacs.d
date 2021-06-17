@@ -185,6 +185,13 @@ non-word-constituent characters after each consonant or vowel.")
           (setq end (or (match-end 4) (match-end 3))
                 type 'long))
 
+	 ((and (not end-consonant) (= (length vowel) 2))
+	  ;; Handle the case of an 'ay' combination that's not followed by a
+	  ;; consonant: the 'y' counts as a consonant instead.
+	  (setq end (1- (match-end 2))
+		end-consonant "y"
+		type 'short))
+
          ((pali--long-vowel-p vowel)
           (setq end (match-end 2)
                 end-consonant nil
@@ -267,7 +274,9 @@ HTML file."
 
 ;; (pali-syllables-str "[Evam-me sutaṁ.] Ekaṁ samayaṁ Bhagavā")
 ;; (pali-syllables-str "Samma-sambuddho")
+;; (pali-syllables-str "bhikkhū gārayhā")
 ;; (pali-syllables-str "Aham-aderena taṁ")
+;; (pali-syllables-str "Phalaṁ mayhaṁ")
 ;; (pali-syllables-str "Saṁvatteyya")
 ;; (pali-syllables-str "Arahaṁ samma-sambuddho bhagavā")
 ;; (pali-syllables-str "Buddh'vārahanta")
