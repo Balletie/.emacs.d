@@ -11,8 +11,13 @@
 (require 'generator)
 (require 'dash-functional)
 
-(defvar pali-ignore-predicates '((lambda (start end) (text-property-any start end 'font-lock-fontified t)))
-  "Predicates used to ignore highlighting syllables.")
+(defun pali--at-pali-block-p (start end)
+  (save-excursion
+    (goto-char start)
+    (org-in-block-p '("pali"))))
+
+(defvar pali-fontify-predicates '(pali--at-pali-block-p)
+  "Predicates used to highlight syllables.")
 
 (defconst pali-category-table (make-category-table))
 (define-category ?c "Pali consonant" pali-category-table)
@@ -264,8 +269,8 @@ HTML file."
 	   (end   (cadr range))
            (type  (cadr syllable))
            (tone  (caddr syllable)))
-      (unless (-some? (-rpartial 'funcall start end) 
-                      pali-ignore-predicates)
+      (when (-some? (-rpartial 'funcall start end)
+                      pali-fontify-predicates)
         (add-text-properties start end
                              (list 'type type 'tone tone
                                    'font-lock-face (list (and (eq tone 'high) 'underline)
