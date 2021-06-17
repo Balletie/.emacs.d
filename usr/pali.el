@@ -10,6 +10,7 @@
 ;;; Code:
 (require 'generator)
 (require 'dash-functional)
+(require 'ox)
 
 (defun pali--at-pali-block-p (start end)
   (save-excursion
@@ -296,6 +297,73 @@ HTML file."
 ;; (pali-syllables-str "Dvitti-patta-pūre")
 ;; (pali-syllables-str "bhikkhu-sammatiyā")
 ;; (with-temp-buffer (insert "bhikkhu-sammatiyā") (goto-char 0) (pali-syllables-str))
+
+(defun pali--latex-encode (s info)
+  (let ((res-string "")
+	prev-type)
+    (iter-do (syllable (pali-iter-syllables nil nil s t))
+      (pcase-let* ((`((,start ,end) ,type ,tone) syllable)
+		   (syllable (substring s start end)))
+	(when (eq tone 'high)
+	  (setq syllable (format "{\\ul{%s}}" syllable)))
+	(when (eq type 'long)
+	  (setq syllable (format "\\hl{%s}" syllable)))
+	(setq res-string (concat res-string (when (and type prev-type) "\\-") syllable))
+	(setq prev-type type)))
+    res-string))
+
+(defun pali-latex-plain-text (text backend info)
+  ;; Filter has to be on plain-text, because if it's a paragraph
+  ;; filter, the text parameter might already have LaTeX commands in
+  ;; it.
+  (let* ((par (org-element-lineage text '(paragraph)))
+	 ;; Note: `par' and `parent-block' may be nil.
+	 (parent-block (org-element-lineage par '(special-block)))
+	 (parent-block-type (org-element-property :type parent-block))
+	 (pali-p (equal "pali" parent-block-type)))
+    (if (and par pali-p)
+	(cond
+	 ((org-export-derived-backend-p backend 'latex)
+	  (pali--latex-encode text info))
+	 ((org-export-derived-backend-p backend 'html)
+	  text))
+      text)))
+
+(defconst pali--env-re "\\\\begin{\\(pali\\|english\\)}\\(\\(?:.\\|\n\\)*?\\)\\\\end{\\1}")
+(defun pali-latex-special-block (block backend info)
+  (if (org-export-derived-backend-p backend 'latex)
+      (replace-regexp-in-string
+       pali--env-re
+       (lambda (s)
+	 (let* ((old-env (match-string 1 s))
+		(content (match-string 2 s))
+		(new-env (if (equal old-env "pali")
+			     "leftcolumn*" "rightcolumn")))
+	   (format "\\begin{%s}%s\\end{%s}" new-env content new-env)))
+       block nil t)
+    block))
+
+(defun pali-latex-section (section backend info)
+  (if (org-export-derived-backend-p backend 'latex)
+      (format "\\begin{paracol}[1]{2}\n%s\\end{paracol}\n" section)
+      section))
+
+(defconst pali-latex-header "\\usepackage{paracol}
+\\usepackage{xcolor-solarized}
+\\usepackage{soulutf8}
+\\renewcommand{\\ul}{\\uline}
+\\sethlcolor{solarized-base2}\n")
+(defun pali-latex-options (opts backend)
+  (if (org-export-derived-backend-p backend 'latex)
+      (plist-put opts :latex-header
+		 (concat pali-latex-header
+			 (plist-get opts :latex-header)))
+      body))
+
+(add-to-list 'org-export-filter-plain-text-functions 'pali-latex-plain-text)
+(add-to-list 'org-export-filter-special-block-functions 'pali-latex-special-block)
+(add-to-list 'org-export-filter-section-functions 'pali-latex-section)
+(add-to-list 'org-export-filter-options-functions 'pali-latex-options)
 
 (defun pali--add-to-extra-keywords ()
   (let ((keywords '((pali-font-lock-set-syllable-faces))))
