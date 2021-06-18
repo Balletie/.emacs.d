@@ -358,7 +358,7 @@ HTML file."
       (plist-put opts :latex-header
 		 (concat pali-latex-header
 			 (plist-get opts :latex-header)))
-      body))
+      opts))
 
 (add-to-list 'org-export-filter-plain-text-functions 'pali-latex-plain-text)
 (add-to-list 'org-export-filter-special-block-functions 'pali-latex-special-block)
