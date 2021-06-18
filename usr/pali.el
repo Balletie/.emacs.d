@@ -343,6 +343,16 @@ HTML file."
        block nil t)
     block))
 
+(defun pali-latex-item (item backend info)
+  (if (org-export-derived-backend-p backend 'latex)
+      (let ((match (string-match "\\\\begin{\\(leftcolumn\\*\\|rightcolumn\\)}\n"
+				 item)))
+	(when match
+	  (store-substring item 0 (match-string 0 item))
+	  (store-substring item (- (match-end 0) match) "\\item ")
+	  (replace-regexp-in-string "\\(\\\\begin{rightcolumn}\n\\)\\(?:.\\|\n\\)*\\'" "\\&\\\\item " item nil nil 1)))
+    item))
+
 (defun pali-latex-section (section backend info)
   (if (org-export-derived-backend-p backend 'latex)
       (format "\\begin{paracol}[1]*{2}\n%s\\end{paracol}\n" section)
@@ -361,6 +371,7 @@ HTML file."
       opts))
 
 (add-to-list 'org-export-filter-plain-text-functions 'pali-latex-plain-text)
+(add-to-list 'org-export-filter-item-functions 'pali-latex-item)
 (add-to-list 'org-export-filter-special-block-functions 'pali-latex-special-block)
 (add-to-list 'org-export-filter-section-functions 'pali-latex-section)
 (add-to-list 'org-export-filter-options-functions 'pali-latex-options)
