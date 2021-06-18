@@ -345,7 +345,7 @@ HTML file."
 
 (defun pali-latex-section (section backend info)
   (if (org-export-derived-backend-p backend 'latex)
-      (format "\\begin{paracol}[1]{2}\n%s\\end{paracol}\n" section)
+      (format "\\begin{paracol}[1]*{2}\n%s\\end{paracol}\n" section)
       section))
 
 (defconst pali-latex-header "\\usepackage{paracol}
