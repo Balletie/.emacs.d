@@ -345,13 +345,22 @@ HTML file."
 
 (defun pali-latex-item (item backend info)
   (if (org-export-derived-backend-p backend 'latex)
-      (let ((match (string-match "\\\\begin{\\(leftcolumn\\*\\|rightcolumn\\)}\n"
-				 item)))
-	(when match
-	  (store-substring item 0 (match-string 0 item))
-	  (store-substring item (- (match-end 0) match) "\\item ")
-	  (replace-regexp-in-string "\\(\\\\begin{rightcolumn}\n\\)\\(?:.\\|\n\\)*\\'" "\\&\\\\item " item nil nil 1)))
+      (when-let* ((match (string-match "\\\\begin{\\(leftcolumn\\*\\|rightcolumn\\)}\n"
+				       item))
+		  (prec-text (substring-no-properties item 0 match)))
+	;; Swap \begin{leftcolumn*|rightcolumn} with preceding \item command
+	(store-substring item 0 (match-string 0 item))
+	(store-substring item (- (match-end 0) match) prec-text)
+	;; Insert \item inside rightcolumn environment
+	(replace-regexp-in-string "\\(\\\\begin{rightcolumn}\n\\)\\(?:.\\|\n\\)*\\'" "\\&\\\\item " item nil nil 1))
     item))
+
+(defun pali-latex-plain-list (list backend info)
+  (if (org-export-derived-backend-p backend 'latex)
+      ;; Insert \synccounter{enumi} to sync enumerate counters in both columns
+      (replace-regexp-in-string "\\(\\\\item\\)\\(?:.\\|\n\\)*\\'"
+				"\\\\synccounter{enumi}\n\\&" list nil nil 1)
+    list))
 
 (defun pali-latex-section (section backend info)
   (if (org-export-derived-backend-p backend 'latex)
@@ -371,6 +380,7 @@ HTML file."
       opts))
 
 (add-to-list 'org-export-filter-plain-text-functions 'pali-latex-plain-text)
+(add-to-list 'org-export-filter-plain-list-functions 'pali-latex-plain-list)
 (add-to-list 'org-export-filter-item-functions 'pali-latex-item)
 (add-to-list 'org-export-filter-special-block-functions 'pali-latex-special-block)
 (add-to-list 'org-export-filter-section-functions 'pali-latex-section)
