@@ -5,12 +5,25 @@
  ;; If there is more than one, they won't work right.
  '(evil-want-C-u-scroll t)
  '(safe-local-variable-values
-   (quote
-    ((project-vc-merge-submodules)
+   '((org-latex-classes quote
+			("memoir" "\\documentclass[11pt]{memoir}"
+			 ("\\chapter{%s}" . "\\chapter*{%s}")
+			 ("\\section{%s}" . "\\section*{%s}")
+			 ("\\subsection{%s}" . "\\subsection*{%s}")
+			 ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
+			 ("\\paragraph{%s}" . "\\paragraph*{%s}")
+			 ("\\subparagraph{%s}" . "\\subparagraph*{%s}")))
+     (org-latex-classes quote
+			("memoir" "\\documentclass[11pt]{memoir}"
+			 ("\\section{%s}" . "\\section*{%s}")
+			 ("\\subsection{%s}" . "\\subsection*{%s}")
+			 ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
+			 ("\\paragraph{%s}" . "\\paragraph*{%s}")
+			 ("\\subparagraph{%s}" . "\\subparagraph*{%s}")))
      (org-html-head-include-scripts)
      (org-export-allow-bind-keywords . t)
      (org-latex-inputenc-alist
-      ("utf8" . "utf8x"))))))
+      ("utf8" . "utf8x")))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
