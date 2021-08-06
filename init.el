@@ -203,13 +203,6 @@
   :when (version< "25" emacs-version)
   :config (global-eldoc-mode))
 
-(use-package elpy
-  :defer t
-  :init
-  (advice-add 'python-mode :before 'elpy-enable)
-  :config
-  (setq elpy-rpc-virtualenv-path (no-littering-expand-var-file-name "elpy/rpc-venv/")))
-
 (use-package evil
   :init
   (setq evil-want-keybinding nil
@@ -245,6 +238,18 @@
   (setq ivy-use-virtual-buffers t
         ivy-count-format "(%d/%d) "))
 
+(use-package lsp-mode
+  :init
+  (setq lsp-keymap-prefix "C-l")
+  :demand t
+  :hook ((python-mode . lsp)
+         (lsp-mode . lsp-enable-which-key-integration))
+  :commands lsp)
+
+(use-package lsp-ui :commands lsp-ui-mode)
+(use-package lsp-ivy :commands lsp-ivy-workspace-symbol)
+(use-package lsp-treemacs :commands lsp-treemacs-errors-list)
+
 (use-package lisp-mode
   :config
   (add-hook 'emacs-lisp-mode-hook 'outline-minor-mode)
@@ -275,6 +280,13 @@
   :config
   (progn
     (marginalia-mode)))
+
+(use-package markdown-mode
+  :commands (markdown-mode gfm-mode)
+  :mode (("README\\.md\\'" . gfm-mode)
+         ("\\.md\\'" . markdown-mode)
+         ("\\.markdown\\'" . markdown-mode))
+  :init (setq markdown-command "multimarkdown"))
 
 (use-package nix-mode
   :mode ("\\.nix\\'"))
@@ -342,6 +354,10 @@
 (use-package tramp-sh
   :defer t
   :config (cl-pushnew 'tramp-own-remote-path tramp-remote-path))
+
+(use-package which-key
+    :config
+    (which-key-mode))
 
 (use-package with-editor
   :commands (with-editor-export-editor with-editor-shell-command with-editor-async-shell-command)

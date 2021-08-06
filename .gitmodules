@@ -67,12 +67,21 @@
 [submodule "evil-goggles"]
 	path = lib/evil-goggles
 	url = https://github.com/edkolev/evil-goggles.git
+[submodule "f"]
+	path = lib/f
+	url = https://github.com/rejeep/f.el.git
+[submodule "flycheck"]
+	path = lib/flycheck
+	url = https://github.com/flycheck/flycheck.git
 [submodule "git-modes"]
 	path = lib/git-modes
 	url = git@github.com:magit/git-modes.git
 [submodule "highlight-indentation"]
 	path = lib/highlight-indentation
 	url = https://github.com/antonj/Highlight-Indentation-for-Emacs.git
+[submodule "ht"]
+	path = lib/ht
+	url = https://github.com/Wilfred/ht.el.git
 [submodule "hydra"]
 	path = lib/hydra
 	url = git@github.com:abo-abo/hydra.git
@@ -83,6 +92,20 @@
 [submodule "jedi"]
 	path = lib/jedi
 	url = https://github.com/tkf/emacs-jedi.git
+[submodule "lsp-ivy"]
+	path = lib/lsp-ivy
+	url = https://github.com/emacs-lsp/lsp-ivy.git
+[submodule "lsp-mode"]
+	path = lib/lsp-mode
+	url = https://github.com/emacs-lsp/lsp-mode.git
+	load-path = .
+	load-path = clients
+[submodule "lsp-treemacs"]
+	path = lib/lsp-treemacs
+	url = https://github.com/emacs-lsp/lsp-treemacs.git
+[submodule "lsp-ui"]
+	path = lib/lsp-ui
+	url = https://github.com/emacs-lsp/lsp-ui.git
 [submodule "magit"]
 	path = lib/magit
 	url = git@github.com:magit/magit.git
@@ -91,6 +114,9 @@
 [submodule "marginalia"]
 	path = lib/marginalia
 	url = https://github.com/minad/marginalia.git
+[submodule "markdown-mode"]
+	path = lib/markdown-mode
+	url = https://github.com/jrblevin/markdown-mode.git
 [submodule "modus-themes"]
 	path = lib/modus-themes
 	url = https://gitlab.com/protesilaos/modus-themes.git
@@ -106,6 +132,9 @@
 [submodule "packed"]
 	path = lib/packed
 	url = git@github.com:emacscollective/packed.git
+[submodule "pfuture"]
+	path = lib/pfuture
+	url = https://github.com/Alexander-Miller/pfuture.git
 [submodule "projectile"]
 	path = lib/projectile
 	url = git@github.com:bbatsov/projectile.git
@@ -115,10 +144,17 @@
 [submodule "s"]
 	path = lib/s
 	url = https://github.com/magnars/s.el.git
+[submodule "spinner"]
+	path = lib/spinner
+	url = https://github.com/Malabarba/spinner.el.git
 [submodule "transient"]
 	path = lib/transient
 	url = git@github.com:magit/transient.git
 	info-path = docs
+[submodule "treemacs"]
+	path = lib/treemacs
+	url = https://github.com/Alexander-Miller/treemacs.git
+	load-path = src/elisp
 [submodule "treepy"]
 	path = lib/treepy
 	url = git@github.com:volrath/treepy.el.git
@@ -131,6 +167,9 @@
 [submodule "web-mode"]
 	path = lib/web-mode
 	url = https://github.com/fxbois/web-mode.git
+[submodule "which-key"]
+	path = lib/which-key
+	url = https://github.com/justbur/emacs-which-key.git
 [submodule "with-editor"]
 	path = lib/with-editor
 	url = git@github.com:magit/with-editor.git
