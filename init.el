@@ -377,6 +377,11 @@
 	 "\\.erb\\'"
 	 "\\.mustache\\'"))
 
+(use-package yasnippet
+  :hook (prog-mode . yas-minor-mode)
+  :init
+  (yas-reload-all))
+
 (progn ;     startup
   (message "Loading %s...done (%.3fs)" user-init-file
            (float-time (time-subtract (current-time)
