@@ -44,6 +44,9 @@
 [submodule "direnv"]
 	path = lib/direnv
 	url = https://github.com/wbolster/emacs-direnv.git
+[submodule "elpher"]
+	path = lib/elpher
+	url = https://thelambdalab.xyz/git/elpher.git
 [submodule "emacsql"]
 	path = lib/emacsql
 	url = git@github.com:skeeto/emacsql.git
@@ -70,6 +73,9 @@
 [submodule "flycheck"]
 	path = lib/flycheck
 	url = https://github.com/flycheck/flycheck.git
+[submodule "gemini-mode"]
+	path = lib/gemini-mode
+	url = https://git.carcosa.net/jmcbray/gemini.el.git
 [submodule "git-modes"]
 	path = lib/git-modes
 	url = git@github.com:magit/git-modes.git
@@ -89,6 +95,9 @@
 [submodule "jedi"]
 	path = lib/jedi
 	url = https://github.com/tkf/emacs-jedi.git
+[submodule "jinja2-mode"]
+	path = lib/jinja2-mode
+	url = https://github.com/paradoxxxzero/jinja2-mode.git
 [submodule "lsp-ivy"]
 	path = lib/lsp-ivy
 	url = https://github.com/emacs-lsp/lsp-ivy.git
@@ -141,6 +150,9 @@
 [submodule "s"]
 	path = lib/s
 	url = https://github.com/magnars/s.el.git
+[submodule "solaire-mode"]
+	path = lib/solaire-mode
+	url = https://github.com/hlissner/emacs-solaire-mode.git
 [submodule "spinner"]
 	path = lib/spinner
 	url = https://github.com/Malabarba/spinner.el.git
@@ -170,6 +182,9 @@
 [submodule "with-editor"]
 	path = lib/with-editor
 	url = git@github.com:magit/with-editor.git
+[submodule "yaml-mode"]
+	path = lib/yaml-mode
+	url = https://github.com/yoshiki/yaml-mode.git
 [submodule "yasnippet"]
 	path = lib/yasnippet
 	url = https://github.com/joaotavora/yasnippet.git

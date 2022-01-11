@@ -336,6 +336,10 @@
     (set-face-attribute 'smerge-refined-removed nil :extend t)
     (set-face-attribute 'smerge-refined-added   nil :extend t)))
 
+(use-package solaire-mode
+  :config
+  (solaire-global-mode 1))
+
 (progn ;    `text-mode'
   (add-hook 'text-mode-hook 'indicate-buffer-boundaries-left))
 
