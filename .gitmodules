@@ -129,6 +129,9 @@
 [submodule "moody"]
 	path = lib/moody
 	url = https://github.com/tarsius/moody.git
+[submodule "multicolumn"]
+	path = lib/multicolumn
+	url = https://github.com/Lindydancer/multicolumn.git
 [submodule "nix-mode"]
 	path = lib/nix-mode
 	url = git@github.com:NixOS/nix-mode.git
