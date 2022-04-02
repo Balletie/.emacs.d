@@ -329,49 +329,48 @@ HTML file."
 	  text))
       text)))
 
-(defconst pali--env-re "\\\\begin{\\(pali\\|english\\)}\\(\\(?:.\\|\n\\)*?\\)\\\\end{\\1}")
-(defun pali-latex-special-block (block backend info)
-  (if (org-export-derived-backend-p backend 'latex)
-      (replace-regexp-in-string
-       pali--env-re
-       (lambda (s)
-	 (let* ((old-env (match-string 1 s))
-		(content (match-string 2 s))
-		(new-env (if (equal old-env "pali")
-			     "leftcolumn*" "rightcolumn")))
-	   (format "\\begin{%s}%s\\end{%s}" new-env content new-env)))
-       block nil t)
-    block))
-
 (defun pali-latex-item (item backend info)
   (if (org-export-derived-backend-p backend 'latex)
-      (when-let* ((match (string-match "\\\\begin{\\(leftcolumn\\*\\|rightcolumn\\)}\n"
+      (when-let* ((match (string-match "\\\\begin{\\(pali\\|english\\)}\n"
 				       item))
 		  (prec-text (substring-no-properties item 0 match)))
-	;; Swap \begin{leftcolumn*|rightcolumn} with preceding \item command
+	;; Swap \begin{pali|english} with preceding \item command
 	(store-substring item 0 (match-string 0 item))
 	(store-substring item (- (match-end 0) match) prec-text)
-	;; Insert \item inside rightcolumn environment
-	(replace-regexp-in-string "\\(\\\\begin{rightcolumn}\n\\)\\(?:.\\|\n\\)*\\'" "\\&\\\\item " item nil nil 1))
+	;; Insert \item inside 'english' environment
+	(replace-regexp-in-string "\\(\\\\begin{english}\n\\)\\(?:.\\|\n\\)*\\'" "\\&\\\\item " item nil nil 1))
     item))
 
 (defun pali-latex-plain-list (list backend info)
   (if (org-export-derived-backend-p backend 'latex)
       ;; Insert \synccounter{enumi} to sync enumerate counters in both columns
-      (replace-regexp-in-string "\\(\\\\item\\)\\(?:.\\|\n\\)*\\'"
-				"\\\\synccounter{enumi}\n\\&" list nil nil 1)
+      (replace-regexp-in-string "\\\\begin{enumerate}\\(\\(?:.\\|\n\\)*\\)\\\\end{enumerate}"
+				"\\\\end{bilingual}\n\\\\begin{enumerate}\n\\\\begin{bilingual}\\1\\\\end{bilingual}\\\\end{enumerate}\\\\begin{bilingual}" list)
     list))
 
-(defun pali-latex-section (section backend info)
-  (if (org-export-derived-backend-p backend 'latex)
-      (format "\\begin{paracol}[1]*{2}\n%s\\end{paracol}\n" section)
-      section))
-
 (defconst pali-latex-header "\\usepackage{paracol}
-\\usepackage{xcolor-solarized}
 \\usepackage{soulutf8}
+\\colorlet{shadecolor}{gray!20}
+\\sethlcolor{shadecolor}
 \\renewcommand{\\ul}{\\uline}
-\\sethlcolor{solarized-base2}\n")
+\\newenvironment{bilingual}{%
+  \\begin{paracol}[1]*{2}%
+}{%
+  \\end{paracol}%
+}
+
+\\newenvironment{pali}{%
+  \\begin{leftcolumn*}%
+}{%
+  \\end{leftcolumn*}%
+}
+
+\\newenvironment{english}{%
+  \\begin{rightcolumn}%
+}{%
+  \\end{rightcolumn}%
+}\n")
+
 (defun pali-latex-options (opts backend)
   (if (org-export-derived-backend-p backend 'latex)
       (plist-put opts :latex-header
@@ -382,8 +381,6 @@ HTML file."
 (add-to-list 'org-export-filter-plain-text-functions 'pali-latex-plain-text)
 (add-to-list 'org-export-filter-plain-list-functions 'pali-latex-plain-list)
 (add-to-list 'org-export-filter-item-functions 'pali-latex-item)
-(add-to-list 'org-export-filter-special-block-functions 'pali-latex-special-block)
-(add-to-list 'org-export-filter-section-functions 'pali-latex-section)
 (add-to-list 'org-export-filter-options-functions 'pali-latex-options)
 
 (defun pali--add-to-extra-keywords ()
