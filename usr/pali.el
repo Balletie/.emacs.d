@@ -49,7 +49,8 @@
 
 (defun pali--set-tone-quirk (end-consonant following-consonant)
   (setq pali--tone-quirk (and (string= end-consonant "s")
-                              (string= following-consonant "m"))))
+                              (or (string= following-consonant "m")
+				  (string= following-consonant "v")))))
 
 (defun pali--unset-tone-quirk ()
   (let ((temp-holder pali--tone-quirk))
@@ -308,7 +309,8 @@ HTML file."
 	  (setq syllable (format "{\\ul{%s}}" syllable)))
 	(when (eq type 'long)
 	  (setq syllable (format "\\hl{%s}" syllable)))
-	(setq res-string (concat res-string (when (and type prev-type) "\\-") syllable))
+	;; (setq res-string (concat res-string (when (and type prev-type) "\\-") syllable))
+	(setq res-string (concat res-string syllable))
 	(setq prev-type type)))
     res-string))
 
@@ -350,6 +352,7 @@ HTML file."
 
 (defconst pali-latex-header "\\usepackage{paracol}
 \\usepackage{soulutf8}
+\\usepackage{xcolor}
 \\colorlet{shadecolor}{gray!20}
 \\sethlcolor{shadecolor}
 \\renewcommand{\\ul}{\\uline}
@@ -361,7 +364,9 @@ HTML file."
 
 \\newenvironment{pali}{%
   \\begin{leftcolumn*}%
+  \\begin{sloppypar}%
 }{%
+  \\end{sloppypar}%
   \\end{leftcolumn*}%
 }
 
