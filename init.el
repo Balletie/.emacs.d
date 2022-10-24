@@ -80,28 +80,27 @@
 (use-package modus-themes
   :demand t
   :init
-  (setq modus-themes-mode-line 'borderless-moody)
-  (setq modus-themes-bold-constructs t)
-  (setq modus-themes-completions 'opinionated)
-  (setq modus-themes-org-blocks 'greyscale)
+  (setq modus-themes-italic-constructs t
+        modus-themes-slanted-constructs t
+        modus-themes-bold-constructs t
+        modus-themes-mixed-fonts t
+        modus-themes-completions 'opinionated
+        modus-themes-org-blocks 'greyscale
+        modus-themes-mode-line '(borderless moody)
+        modus-themes-scale-headings t
+        modus-themes-variable-pitch-headings t
+        modus-themes-region '(bg-only no-extend))
 
-  (setq modus-themes-headings
-        '((1 . highlight) ; make h1 stand out with a background
-          (2 . line)      ; add a line above h2
-          (t . rainbow))) ; choose a random color for all headings
-
-  (setq modus-themes-scale-headings t)
-  (setq modus-themes-slanted-constructs t)
-  (setq modus-themes-variable-pitch-headings t)
+  (modus-themes-load-themes)
   :config
-  (modus-themes-load-operandi))
+  (modus-themes-load-vivendi))
 
 (use-package frame
   :config
   (setq frame-title-format "Emacs (%b)")
   (set-face-attribute 'default nil :family "Iosevka Term" :width 'regular :height 104)
-  (set-face-attribute 'fixed-pitch nil :family "Iosevka Term" :width 'regular :height 104)
-  (set-face-attribute 'variable-pitch nil :font "Cantarell"))
+  (set-face-attribute 'fixed-pitch nil :family (face-attribute 'default :family))
+  (set-face-attribute 'variable-pitch nil :family "Cantarell"))
 
 (use-package moody
   :demand t
@@ -215,6 +214,7 @@
   :after evil
   :diminish evil-collection-unimpaired-mode
   :config
+  (setq evil-want-keybinding nil)
   (evil-collection-init))
 
 (use-package evil-goggles
