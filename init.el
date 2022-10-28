@@ -169,6 +169,9 @@
   (setq dash-docs-enable-debugging nil
         dash-docs-common-docsets (list "SQLite" "JavaScript" "Flask" "Sass" "svelte" "HTML" "Python 3")))
 
+(use-package devdocs
+  :bind (("C-h D" . devdocs-lookup)))
+
 (use-package diff-hl
   :config
   (setq diff-hl-draw-borders nil)
