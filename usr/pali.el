@@ -350,36 +350,42 @@ HTML file."
 				"\\\\end{bilingual}\n\\\\begin{enumerate}\n\\\\begin{bilingual}\\1\\\\end{bilingual}\\\\end{enumerate}\\\\begin{bilingual}" list)
     list))
 
-(defconst pali-latex-header "\\usepackage{paracol}
-\\usepackage{soulutf8}
-\\usepackage{xcolor}
-\\colorlet{shadecolor}{gray!20}
-\\sethlcolor{shadecolor}
-\\renewcommand{\\ul}{\\uline}
-\\newenvironment{bilingual}{%
+(defvar pali-latex-bilingual-env "\\newenvironment{bilingual}{%
   \\begin{paracol}[1]*{2}%
 }{%
   \\end{paracol}%
 }
+")
 
-\\newenvironment{pali}{%
+(defvar pali-latex-pali-env "\\newenvironment{pali}{%
   \\begin{leftcolumn*}%
   \\begin{sloppypar}%
 }{%
   \\end{sloppypar}%
   \\end{leftcolumn*}%
-}
+}")
 
-\\newenvironment{english}{%
+(defvar pali-latex-english-env "\\newenvironment{english}{%
   \\begin{rightcolumn}%
 }{%
   \\end{rightcolumn}%
 }\n")
 
+(defvar pali-latex-header-format "\\usepackage{paracol}
+\\usepackage{soulutf8}
+\\usepackage{xcolor}
+\\colorlet{shadecolor}{gray!20}
+\\sethlcolor{shadecolor}
+\\renewcommand{\\ul}{\\uline}
+%s
+%s
+%s")
+
 (defun pali-latex-options (opts backend)
   (if (org-export-derived-backend-p backend 'latex)
       (plist-put opts :latex-header
-		 (concat pali-latex-header
+		 (concat (format pali-latex-header-format
+				 pali-latex-bilingual-env pali-latex-pali-env pali-latex-english-env)
 			 (plist-get opts :latex-header)))
       opts))
 
