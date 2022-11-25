@@ -79,17 +79,22 @@
 
 (use-package modus-themes
   :demand t
+  :bind ("<f5>" . modus-themes-toggle)
   :init
   (setq modus-themes-italic-constructs t
         modus-themes-slanted-constructs t
         modus-themes-bold-constructs t
         modus-themes-mixed-fonts t
-        modus-themes-completions 'opinionated
+        modus-themes-completions '((matches . (extrabold background intense))
+                                   (selection . (semibold accented intense))
+                                   (popup . (accented)))
         modus-themes-org-blocks 'greyscale
         modus-themes-mode-line '(borderless moody)
         modus-themes-scale-headings t
         modus-themes-variable-pitch-headings t
-        modus-themes-region '(bg-only no-extend))
+        modus-themes-region '(bg-only no-extend)
+
+        shr-use-fonts nil)
 
   (modus-themes-load-themes)
   :config
