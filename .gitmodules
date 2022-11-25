@@ -28,9 +28,12 @@
 [submodule "compat"]
 	path = lib/compat
 	url = https://git.sr.ht/~pkal/compat
-[submodule "counsel-dash"]
-	path = lib/counsel-dash
-	url = https://github.com/dash-docs-el/counsel-dash.git
+[submodule "consult"]
+	path = lib/consult
+	url = https://github.com/minad/consult.git
+[submodule "consult-ag"]
+	path = lib/consult-ag
+	url = https://github.com/yadex205/consult-ag.git
 [submodule "dash"]
 	path = lib/dash
 	url = git@github.com:magnars/dash.el.git
@@ -57,6 +60,9 @@
 	path = lib/emacsql
 	url = git@github.com:skeeto/emacsql.git
 	no-byte-compile = emacsql-pg.el
+[submodule "embark"]
+	path = lib/embark
+	url = https://github.com/oantolin/embark.git
 [submodule "epc"]
 	path = lib/epc
 	url = https://github.com/kiwanami/emacs-epc.git
@@ -94,19 +100,12 @@
 [submodule "hydra"]
 	path = lib/hydra
 	url = git@github.com:abo-abo/hydra.git
-[submodule "ivy"]
-	path = lib/ivy
-	url = git@github.com:abo-abo/swiper.git
-	info-path = doc
 [submodule "jedi"]
 	path = lib/jedi
 	url = https://github.com/tkf/emacs-jedi.git
 [submodule "jinja2-mode"]
 	path = lib/jinja2-mode
 	url = https://github.com/paradoxxxzero/jinja2-mode.git
-[submodule "lsp-ivy"]
-	path = lib/lsp-ivy
-	url = https://github.com/emacs-lsp/lsp-ivy.git
 [submodule "lsp-mode"]
 	path = lib/lsp-mode
 	url = https://github.com/emacs-lsp/lsp-mode.git
@@ -144,6 +143,9 @@
 [submodule "no-littering"]
 	path = lib/no-littering
 	url = git@github.com:emacscollective/no-littering.git
+[submodule "orderless"]
+	path = lib/orderless
+	url = https://github.com/oantolin/orderless.git
 [submodule "packed"]
 	path = lib/packed
 	url = git@github.com:emacscollective/packed.git
@@ -182,6 +184,9 @@
 [submodule "use-package"]
 	path = lib/use-package
 	url = git@github.com:jwiegley/use-package.git
+[submodule "vertico"]
+	path = lib/vertico
+	url = https://github.com/minad/vertico.git
 [submodule "web-mode"]
 	path = lib/web-mode
 	url = https://github.com/fxbois/web-mode.git
