@@ -15,7 +15,8 @@
 (defun pali--at-pali-block-p (start end)
   (save-excursion
     (goto-char start)
-    (org-in-block-p '("pali"))))
+    (and (org-in-block-p '("pali"))
+	 (not (looking-at-p "#\\+\\(begin\\|end\\)_\\w+")))))
 
 (defvar pali-fontify-predicates '(pali--at-pali-block-p)
   "Predicates used to highlight syllables.")
@@ -314,6 +315,22 @@ HTML file."
 	(setq prev-type type)))
     res-string))
 
+(defun pali--html-encode (s info)
+  (let ((res-string "")
+	prev-type)
+    (iter-do (syllable (pali-iter-syllables nil nil s t))
+      (pcase-let* ((`((,start ,end) ,type ,tone) syllable)
+		   (syllable (substring s start end)))
+	(cond
+	 ((eq tone 'high)
+	  (setq syllable (format "<span class=\"high\">%s</span>" syllable)))
+	 ((eq type 'long)
+	  (setq syllable (format "<span class=\"long\">%s</span>" syllable))))
+	;; (setq res-string (concat res-string (when (and type prev-type) "\\-") syllable))
+	(setq res-string (concat res-string syllable))
+	(setq prev-type type)))
+    res-string))
+
 (defun pali-latex-plain-text (text backend info)
   ;; Filter has to be on plain-text, because if it's a paragraph
   ;; filter, the text parameter might already have LaTeX commands in
@@ -328,7 +345,7 @@ HTML file."
 	 ((org-export-derived-backend-p backend 'latex)
 	  (pali--latex-encode text info))
 	 ((org-export-derived-backend-p backend 'html)
-	  text))
+	  (pali--html-encode text info)))
       text)))
 
 (defun pali-latex-item (item backend info)
@@ -342,6 +359,16 @@ HTML file."
 	;; Insert \item inside 'english' environment
 	(replace-regexp-in-string "\\(\\\\begin{english}\n\\)\\(?:.\\|\n\\)*\\'" "\\&\\\\item " item nil nil 1))
     item))
+
+(defun pali-html-special-block(block backend info)
+  (if (org-export-derived-backend-p backend 'html)
+      (cond
+       ((string-match "^<div class=\"pali\"" block)
+	(concat "<div class=row>" block))
+	((string-match "^<div class=\"english\"" block)
+	(concat block "</div>"))
+       (block))
+    block))
 
 (defun pali-latex-plain-list (list backend info)
   (if (org-export-derived-backend-p backend 'latex)
@@ -391,6 +418,7 @@ HTML file."
 
 (add-to-list 'org-export-filter-plain-text-functions 'pali-latex-plain-text)
 (add-to-list 'org-export-filter-plain-list-functions 'pali-latex-plain-list)
+(add-to-list 'org-export-filter-special-block-functions 'pali-html-special-block)
 (add-to-list 'org-export-filter-item-functions 'pali-latex-item)
 (add-to-list 'org-export-filter-options-functions 'pali-latex-options)
 
