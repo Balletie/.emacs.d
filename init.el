@@ -346,18 +346,6 @@
 (progn ;    `isearch'
   (setq isearch-allow-scroll t))
 
-(use-package lsp-mode
-  :init
-  (setq lsp-keymap-prefix "C-l")
-  :demand t
-  :hook ((python-mode . lsp)
-         (lsp-mode . lsp-enable-which-key-integration))
-  :commands lsp)
-
-(use-package lsp-ui :commands lsp-ui-mode)
-(use-package lsp-ivy :commands lsp-ivy-workspace-symbol)
-(use-package lsp-treemacs :commands lsp-treemacs-errors-list)
-
 (use-package lisp-mode
   :config
   (add-hook 'emacs-lisp-mode-hook 'outline-minor-mode)

@@ -115,20 +115,6 @@
 [submodule "jinja2-mode"]
 	path = lib/jinja2-mode
 	url = https://github.com/paradoxxxzero/jinja2-mode.git
-[submodule "loop"]
-	path = lib/loop
-	url = https://github.com/Wilfred/loop.el.git
-[submodule "lsp-mode"]
-	path = lib/lsp-mode
-	url = https://github.com/emacs-lsp/lsp-mode.git
-	load-path = .
-	load-path = clients
-[submodule "lsp-treemacs"]
-	path = lib/lsp-treemacs
-	url = https://github.com/emacs-lsp/lsp-treemacs.git
-[submodule "lsp-ui"]
-	path = lib/lsp-ui
-	url = https://github.com/emacs-lsp/lsp-ui.git
 [submodule "magit"]
 	path = lib/magit
 	url = git@github.com:magit/magit.git
