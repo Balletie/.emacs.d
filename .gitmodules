@@ -19,6 +19,9 @@
 [submodule "borg"]
 	path = lib/borg
 	url = git@github.com:emacscollective/borg.git
+[submodule "caddyfile-mode"]
+	path = lib/caddyfile-mode
+	url = https://github.com/Schnouki/caddyfile-mode.git
 [submodule "closql"]
 	path = lib/closql
 	url = git@github.com:emacscollective/closql.git
@@ -41,6 +44,9 @@
 [submodule "dash-docs"]
 	path = lib/dash-docs
 	url = https://github.com/dash-docs-el/dash-docs.git
+[submodule "debian-el"]
+	path = lib/debian-el
+	url = https://salsa.debian.org/emacsen-team/debian-el.git
 [submodule "devdocs"]
 	path = lib/devdocs
 	url = https://github.com/astoff/devdocs.el.git
@@ -53,6 +59,9 @@
 [submodule "direnv"]
 	path = lib/direnv
 	url = https://github.com/wbolster/emacs-direnv.git
+[submodule "dpkg-dev-el"]
+	path = lib/dpkg-dev-el
+	url = https://salsa.debian.org/emacsen-team/dpkg-dev-el.git
 [submodule "elpher"]
 	path = lib/elpher
 	url = https://thelambdalab.xyz/git/elpher.git
@@ -106,6 +115,9 @@
 [submodule "jinja2-mode"]
 	path = lib/jinja2-mode
 	url = https://github.com/paradoxxxzero/jinja2-mode.git
+[submodule "loop"]
+	path = lib/loop
+	url = https://github.com/Wilfred/loop.el.git
 [submodule "lsp-mode"]
 	path = lib/lsp-mode
 	url = https://github.com/emacs-lsp/lsp-mode.git

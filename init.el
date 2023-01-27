@@ -167,6 +167,8 @@
 (use-package autorevert
   :diminish auto-revert-mode)
 
+(use-package caddyfile-mode)
+
 (use-package consult
   ;; Replace bindings. Lazily loaded due by `use-package'.
   :bind (;; C-c bindings (mode-specific-map)
@@ -288,6 +290,8 @@
 
 (use-package display-line-numbers
   :hook ((prog-mode text-mode) . display-line-numbers-mode))
+
+(use-package dpkg-dev)
 
 (use-package eldoc
   :when (version< "25" emacs-version)
@@ -474,8 +478,10 @@
   (vertico-mode))
 
 (use-package which-key
-    :config
-    (which-key-mode))
+  :bind (("C-h K" . which-key-show-full-major-mode)
+         ("C-h C-k" . which-key-show-top-level))
+  :config
+  (which-key-mode))
 
 (use-package with-editor
   :commands (with-editor-export-editor with-editor-shell-command with-editor-async-shell-command)
