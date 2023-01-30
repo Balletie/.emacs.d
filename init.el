@@ -414,11 +414,11 @@
   :bind-keymap ("C-c p" . projectile-command-map)
   :config
   (setq projectile-enable-caching t)
-  (setq projectile-completion-system 'ivy)
   (projectile-mode))
 
 (use-package recentf
   :demand t
+  :init (recentf-mode 1)
   :config (add-to-list 'recentf-exclude "^/\\(?:ssh\\|su\\|sudo\\)?:"))
 
 (use-package savehist
