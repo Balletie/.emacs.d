@@ -44,6 +44,9 @@
 [submodule "dash-docs"]
 	path = lib/dash-docs
 	url = https://github.com/dash-docs-el/dash-docs.git
+[submodule "dashboard"]
+	path = lib/dashboard
+	url = https://github.com/emacs-dashboard/emacs-dashboard.git
 [submodule "debian-el"]
 	path = lib/debian-el
 	url = https://salsa.debian.org/emacsen-team/debian-el.git
@@ -147,6 +150,9 @@
 [submodule "packed"]
 	path = lib/packed
 	url = git@github.com:emacscollective/packed.git
+[submodule "page-break-lines"]
+	path = lib/page-break-lines
+	url = https://github.com/purcell/page-break-lines.git
 [submodule "pfuture"]
 	path = lib/pfuture
 	url = https://github.com/Alexander-Miller/pfuture.git

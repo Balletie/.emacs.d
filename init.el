@@ -38,6 +38,17 @@
   (setq use-package-verbose t))
 
 (use-package dash)
+(use-package dashboard
+  :config
+  (dashboard-setup-startup-hook)
+  :custom
+  (initial-buffer-choice (lambda () (get-buffer-create "*dashboard*")))
+  (dashboard-items '((recents  . 5)
+                     (bookmarks . 5)
+                     (projects . 5)
+                     (registers . 5)))
+  (dashboard-page-separator "\n\f\n")
+  (dashboard-set-footer nil))
 (use-package eieio)
 
 (use-package auto-compile
@@ -405,6 +416,10 @@
   :custom
   (completion-styles '(orderless basic))
   (completion-category-overrides '((file (styles partial-completion)))))
+
+(use-package page-break-lines
+  :config
+  (global-page-break-lines-mode))
 
 (use-package pali)
 
