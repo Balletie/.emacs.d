@@ -114,7 +114,7 @@
 (use-package frame
   :config
   (setq frame-title-format "Emacs (%b)")
-  (set-face-attribute 'default nil :family "Iosevka Term" :width 'regular :height 104)
+  (set-face-attribute 'default nil :family "Iosevka Term" :width 'regular :height 120)
   (set-face-attribute 'fixed-pitch nil :family (face-attribute 'default :family))
   (set-face-attribute 'variable-pitch nil :family "Cantarell"))
 
