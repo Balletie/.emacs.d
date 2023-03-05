@@ -352,6 +352,8 @@
   (evil-goggles-mode)
   (evil-goggles-use-diff-faces))
 
+(use-package git-annex)
+
 (use-package help
   :defer t
   :config (temp-buffer-resize-mode))
@@ -378,6 +380,8 @@
                           'magit-insert-modules
                           'magit-insert-stashes
                           'append))
+
+(use-package magit-annex)
 
 (use-package makefile
   :hook

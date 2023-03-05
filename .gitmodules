@@ -100,6 +100,9 @@
 [submodule "gemini-mode"]
 	path = lib/gemini-mode
 	url = https://git.carcosa.net/jmcbray/gemini.el.git
+[submodule "git-annex"]
+	path = lib/git-annex
+	url = https://github.com/jwiegley/git-annex-el.git
 [submodule "git-modes"]
 	path = lib/git-modes
 	url = git@github.com:magit/git-modes.git
@@ -123,6 +126,9 @@
 	url = git@github.com:magit/magit.git
 	recursive-byte-compile = true
 	info-path = Documentation
+[submodule "magit-annex"]
+	path = lib/magit-annex
+	url = https://github.com/magit/magit-annex.git
 [submodule "marginalia"]
 	path = lib/marginalia
 	url = https://github.com/minad/marginalia.git
