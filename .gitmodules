@@ -106,6 +106,9 @@
 [submodule "git-modes"]
 	path = lib/git-modes
 	url = git@github.com:magit/git-modes.git
+[submodule "goto-chg"]
+	path = lib/goto-chg
+	url = https://github.com/emacs-evil/goto-chg.git
 [submodule "highlight-indentation"]
 	path = lib/highlight-indentation
 	url = https://github.com/antonj/Highlight-Indentation-for-Emacs.git
@@ -121,6 +124,9 @@
 [submodule "jinja2-mode"]
 	path = lib/jinja2-mode
 	url = https://github.com/paradoxxxzero/jinja2-mode.git
+[submodule "loop"]
+	path = lib/loop
+	url = git@github.com/Wilfred/loop.el.git
 [submodule "magit"]
 	path = lib/magit
 	url = git@github.com:magit/magit.git
