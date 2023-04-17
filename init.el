@@ -100,16 +100,10 @@
                                    (selection . (semibold accented intense))
                                    (popup . (accented)))
         modus-themes-org-blocks 'greyscale
-        modus-themes-mode-line '(borderless moody)
-        modus-themes-scale-headings t
-        modus-themes-variable-pitch-headings t
-        modus-themes-region '(bg-only no-extend)
-
-        shr-use-fonts nil)
-
-  (modus-themes-load-themes)
+        modus-themes-common-palette-overrides '((border-mode-line-active unspecified)
+                                                (border-mode-line-inactive unspecified)))
   :config
-  (modus-themes-load-vivendi))
+  (modus-themes-load-theme 'modus-vivendi))
 
 (use-package frame
   :config
@@ -147,16 +141,6 @@
   (make-variable-buffer-local 'my/mode-line-buffer-identification)
 
   (setq x-underline-at-descent-line t)
-
-  (setq evil-emacs-state-tag    (propertize " EMACS   " 'face 'modus-themes-refine-red)
-        evil-insert-state-tag   (propertize " INSERT  " 'face 'modus-themes-refine-green)
-        evil-replace-state-tag  (propertize " REPLACE " 'face 'modus-themes-refine-yellow)
-        evil-normal-state-tag   " NORMAL  "
-        evil-visual-char-tag    (propertize " VISUAL  " 'face 'modus-themes-refine-blue)
-        evil-visual-line-tag    (propertize " V-LINE  " 'face 'modus-themes-refine-blue)
-        evil-visual-block-tag   (propertize " V-BLOCK " 'face 'modus-themes-refine-blue)
-        evil-operator-state-tag (propertize " PENDING " 'face 'modus-themes-refine-neutral))
-  (setq evil-mode-line-format '(before . mode-line-front-space))
 
   ;(moody-replace-mode-line-buffer-identification)
   (moody-replace-element 'mode-line-mule-info 'my/mode-line-mule-info)
@@ -335,7 +319,16 @@
   :init
   (setq evil-want-keybinding nil
         evil-want-integration t
-        evil-undo-system 'undo-fu)
+        evil-undo-system 'undo-fu
+        evil-emacs-state-tag    (propertize " EMACS   " 'face 'modus-themes-intense-red)
+        evil-insert-state-tag   (propertize " INSERT  " 'face 'modus-themes-intense-green)
+        evil-replace-state-tag  (propertize " REPLACE " 'face 'modus-themes-intense-yellow)
+        evil-normal-state-tag   " NORMAL  "
+        evil-visual-char-tag    (propertize " VISUAL  " 'face 'modus-themes-intense-blue)
+        evil-visual-line-tag    (propertize " V-LINE  " 'face 'modus-themes-intense-blue)
+        evil-visual-block-tag   (propertize " V-BLOCK " 'face 'modus-themes-intense-blue)
+        evil-operator-state-tag (propertize " PENDING " 'face 'modus-themes-nuanced-yellow))
+  (setq evil-mode-line-format '(before . mode-line-front-space))
   :config
   (evil-mode 1))
 
