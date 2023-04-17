@@ -288,7 +288,7 @@
 (use-package display-line-numbers
   :hook ((prog-mode text-mode) . display-line-numbers-mode))
 
-(use-package dpkg-dev)
+(use-package dpkg-dev-el)
 
 (use-package eldoc
   :when (version< "25" emacs-version)
@@ -418,8 +418,6 @@
   :config
   (global-page-break-lines-mode))
 
-(use-package pali)
-
 (use-package paren
   :config (show-paren-mode))
 
@@ -511,11 +509,6 @@
 	 "\\.as[cp]x\\'"
 	 "\\.erb\\'"
 	 "\\.mustache\\'"))
-
-(use-package yasnippet
-  :hook (prog-mode . yas-minor-mode)
-  :init
-  (yas-reload-all))
 
 (progn ;     startup
   (message "Loading %s...done (%.3fs)" user-init-file
