@@ -290,6 +290,10 @@
 
 (use-package dpkg-dev-el)
 
+(use-package eglot
+  :defer t
+  :hook (python-mode . eglot-ensure))
+
 (use-package eldoc
   :when (version< "25" emacs-version)
   :config (global-eldoc-mode))
@@ -420,6 +424,22 @@
 
 (use-package paren
   :config (show-paren-mode))
+
+(use-package pet
+  :config
+  (add-hook 'python-mode-hook
+            #'(lambda ()
+                ;; Python interpreter
+                (setq-local python-shell-interpreter (pet-executable-find "python")
+                            python-shell-virtualenv-root (pet-virtualenv-root))
+                ;; Pytest (for python-pytest)
+                ;;(setq-local python-pytest-executable (pet-executable-find "pytest"))
+                ;; Eglot
+                (require 'eglot)
+                (setq-local eglot-server-programs
+                            (cons `((python-mode python-ts-mode)
+                                    . (,(pet-executable-find "pylsp")))
+                                  eglot-server-programs)))))
 
 (use-package prog-mode
   :config

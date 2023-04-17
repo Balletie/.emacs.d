@@ -165,6 +165,9 @@
 [submodule "page-break-lines"]
 	path = lib/page-break-lines
 	url = https://github.com/purcell/page-break-lines.git
+[submodule "pet"]
+	path = lib/pet
+	url = https://github.com/wyuenho/emacs-pet
 [submodule "pfuture"]
 	path = lib/pfuture
 	url = https://github.com/Alexander-Miller/pfuture.git
