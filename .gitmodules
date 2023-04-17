@@ -124,6 +124,9 @@
 [submodule "jinja2-mode"]
 	path = lib/jinja2-mode
 	url = https://github.com/paradoxxxzero/jinja2-mode.git
+[submodule "llama"]
+	path = lib/llama
+	url = https://git.sr.ht/~tarsius/llama
 [submodule "loop"]
 	path = lib/loop
 	url = git@github.com/Wilfred/loop.el.git
