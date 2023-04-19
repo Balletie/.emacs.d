@@ -103,6 +103,7 @@
         modus-themes-common-palette-overrides '((border-mode-line-active unspecified)
                                                 (border-mode-line-inactive unspecified)))
   :config
+  (declare-function modus-themes-load-theme "modus-themes.el")
   (modus-themes-load-theme 'modus-vivendi))
 
 (use-package frame
@@ -121,7 +122,7 @@
                         (default-value 'buffer-file-coding-system))
               (list mode-line-mule-info " "))))
   (put 'my/mode-line-mule-info 'risky-local-variable t)
-  (make-variable-buffer-local 'my/mode-line-mule-info)
+  (make-local-variable 'my/mode-line-mule-info)
 
   (defvar my/mode-line-position
     (list mode-line-percent-position " %l:%c "))
@@ -138,11 +139,12 @@
                          mode-line)
                        20 'down)))
   (put 'my/mode-line-buffer-identification 'risky-local-variable t)
-  (make-variable-buffer-local 'my/mode-line-buffer-identification)
+  (make-local-variable 'my/mode-line-buffer-identification)
 
   (setq x-underline-at-descent-line t)
 
   ;(moody-replace-mode-line-buffer-identification)
+  (declare-function moody-replace-element "moody.el")
   (moody-replace-element 'mode-line-mule-info 'my/mode-line-mule-info)
   (moody-replace-element 'mode-line-position 'my/mode-line-position)
   (moody-replace-element 'mode-line-buffer-identification 'my/mode-line-buffer-identification)
@@ -282,6 +284,7 @@
   :config
   (setq direnv-always-show-summary t
 	direnv-show-paths-in-summary nil)
+  (declare-function direnv--maybe-update-environment "direnv.el")
   (add-hook 'prog-mode-hook #'direnv--maybe-update-environment)
   (direnv-mode))
 
@@ -347,6 +350,7 @@
   :diminish evil-goggles-mode
   :config
   (evil-goggles-mode)
+  (declare-function evil-goggles-use-diff-faces "evil-goggles")
   (evil-goggles-use-diff-faces))
 
 (use-package git-annex)
