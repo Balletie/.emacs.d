@@ -295,7 +295,7 @@
 
 (use-package eglot
   :defer t
-  :hook (python-mode . eglot-ensure))
+  :hook ((python-mode python-ts-mode) . eglot-ensure))
 
 (use-package eldoc
   :when (version< "25" emacs-version)
@@ -460,6 +460,10 @@
   :config
   (setq projectile-enable-caching t)
   (projectile-mode))
+
+(use-package python
+  :init
+  (add-to-list 'major-mode-remap-alist ('python-mode . 'python-ts-mode)))
 
 (use-package recentf
   :demand t
