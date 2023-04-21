@@ -38,6 +38,7 @@
   (setq use-package-verbose t))
 
 (use-package dash)
+
 (use-package dashboard
   :config
   (dashboard-setup-startup-hook)
@@ -49,6 +50,9 @@
                      (registers . 5)))
   (dashboard-page-separator "\n\f\n")
   (dashboard-set-footer nil))
+
+(use-package diminish)
+
 (use-package eieio)
 
 (use-package auto-compile
