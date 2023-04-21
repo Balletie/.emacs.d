@@ -168,7 +168,9 @@
 (use-package autorevert
   :diminish auto-revert-mode)
 
-(use-package caddyfile-mode)
+(use-package caddyfile-mode
+  :mode (("CaddyFile\\'" . caddyfile-mode)
+         ("caddy\\.conf\\'" . caddyfile-mode)))
 
 (use-package consult
   :demand
@@ -386,7 +388,8 @@
                           'magit-insert-stashes
                           'append))
 
-(use-package magit-annex)
+(use-package magit-annex
+  :after magit)
 
 (use-package make-mode
   :hook
@@ -414,11 +417,6 @@
 
 (use-package nix-mode
   :mode ("\\.nix\\'"))
-
-(use-package nix-prettify-mode
-  :diminish nix-prettify-mode
-  :config
-  (nix-prettify-global-mode))
 
 (use-package orderless
   :demand t
