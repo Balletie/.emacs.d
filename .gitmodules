@@ -129,7 +129,7 @@
 	url = https://git.sr.ht/~tarsius/llama
 [submodule "loop"]
 	path = lib/loop
-	url = git@github.com/Wilfred/loop.el.git
+	url = git@github.com:Wilfred/loop.el.git
 [submodule "magit"]
 	path = lib/magit
 	url = git@github.com:magit/magit.git

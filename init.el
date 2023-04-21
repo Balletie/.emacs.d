@@ -384,7 +384,7 @@
 
 (use-package magit-annex)
 
-(use-package makefile
+(use-package make-mode
   :hook
   (makefile-mode . indent-tabs-mode))
 
@@ -511,7 +511,7 @@
   :config (cl-pushnew 'tramp-own-remote-path tramp-remote-path))
 
 (use-package vertico
-  :init
+  :config
   (vertico-mode))
 
 (use-package which-key
