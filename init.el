@@ -303,7 +303,18 @@
 
 (use-package eglot
   :defer t
-  :hook ((python-mode python-ts-mode) . eglot-ensure))
+  :hook ((python-mode python-ts-mode) . eglot-ensure)
+  :config
+  (setq-default eglot-workspace-configuration
+                '((:pylsp . (:plugins (
+                                       :pycodestyle (:enabled :json-false)
+                                       :mccabe (:enabled :json-false)
+                                       :pyflakes (:enabled :json-false)
+                                       :flake8 (:enabled :json-false)
+                                       :ruff (:enabled t)
+                                       :yapf (:enabled :json-false)
+                                       :autopep8 (:enabled :json-false)
+                                       :black (:enabled t)))))))
 
 (use-package eldoc
   :when (version< "25" emacs-version)
@@ -467,7 +478,8 @@
 
 (use-package python
   :init
-  (add-to-list 'major-mode-remap-alist ('python-mode . 'python-ts-mode)))
+  (add-to-list 'major-mode-remap-alist '(python-mode . python-ts-mode)))
+
 
 (use-package recentf
   :demand t
