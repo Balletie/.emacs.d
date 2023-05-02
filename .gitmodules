@@ -144,6 +144,9 @@
 [submodule "markdown-mode"]
 	path = lib/markdown-mode
 	url = https://github.com/jrblevin/markdown-mode.git
+[submodule "meow"]
+	path = lib/meow
+	url = https://github.com/meow-edit/meow
 [submodule "modus-themes"]
 	path = lib/modus-themes
 	url = https://gitlab.com/protesilaos/modus-themes.git
