@@ -585,6 +585,8 @@
   (vertico-mode))
 
 (use-package which-key
+  :demand
+  :diminish
   :bind (("C-h K" . which-key-show-full-major-mode)
          ("C-h C-k" . which-key-show-top-level))
   :config
