@@ -398,6 +398,7 @@
   :init (setq markdown-command "multimarkdown"))
 
 (use-package meow
+  :diminish (meow-normal-mode meow-insert-mode meow-beacon-mode meow-motion-mode meow-keypad-mode)
   :config
   (defun meow-setup ()
     (setq meow-cheatsheet-layout meow-cheatsheet-layout-qwerty)
@@ -483,7 +484,9 @@
      '("Y" . meow-sync-grab)
      '("z" . meow-pop-selection)
      '("'" . repeat)
-     '("<escape>" . ignore)))
+     '("<escape>" . ignore))
+    (meow-setup-indicator)
+    (meow-setup-line-number))
   (meow-setup)
   (meow-global-mode 1))
 
