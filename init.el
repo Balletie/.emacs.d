@@ -535,11 +535,6 @@
   (setq projectile-enable-caching t)
   (projectile-mode))
 
-(use-package python
-  :init
-  (add-to-list 'major-mode-remap-alist '(python-mode . python-ts-mode)))
-
-
 (use-package recentf
   :demand t
   :init (recentf-mode 1)
@@ -605,7 +600,6 @@
 
 (use-package web-mode
   :mode ("\\.html?\\'"
-	 "\\.css\\'"
 	 "\\.phtml\\'"
 	 "\\.php\\'"
 	 "\\.[agj]sp\\'"
