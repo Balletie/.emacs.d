@@ -500,6 +500,11 @@
   (completion-category-overrides '((file (styles partial-completion)))))
 
 (use-package page-break-lines
+  :custom
+  (page-break-lines-char ?⋅)
+  (page-break-lines-modes '(emacs-lisp-mode lisp-mode scheme-mode
+                            compilation-mode outline-mode help-mode
+                            makefile-mode))
   :config
   (global-page-break-lines-mode))
 
