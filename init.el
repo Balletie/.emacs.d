@@ -399,6 +399,12 @@
 
 (use-package meow
   :diminish (meow-normal-mode meow-insert-mode meow-beacon-mode meow-motion-mode meow-keypad-mode)
+  :custom
+  (meow-expand-hint-counts '((word . 20)
+                             (line . 0)
+                             (block . 20)
+                             (find . 20)
+                             (till . 20)))
   :config
   (defun meow-setup ()
     (setq meow-cheatsheet-layout meow-cheatsheet-layout-qwerty)
