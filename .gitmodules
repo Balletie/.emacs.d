@@ -1,6 +1,9 @@
 [borg]
 	pushDefault = locutus
 	collective = emacsg
+[submodule "ag"]
+	path = lib/ag
+	url = https://github.com/Wilfred/ag.el
 [submodule "annalist"]
 	path = lib/annalist
 	url = git@github.com:noctuid/annalist.el.git
@@ -215,6 +218,9 @@
 [submodule "web-mode"]
 	path = lib/web-mode
 	url = https://github.com/fxbois/web-mode.git
+[submodule "wgrep"]
+	path = lib/wgrep
+	url = https://github.com/mhayashi1120/Emacs-wgrep
 [submodule "which-key"]
 	path = lib/which-key
 	url = https://github.com/justbur/emacs-which-key.git

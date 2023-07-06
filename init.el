@@ -623,6 +623,14 @@
 	 "\\.erb\\'"
 	 "\\.mustache\\'"))
 
+(use-package wgrep
+  :demand t
+  :after (grep)
+  :init
+  (progn
+    (setq wgrep-enable-key [remap read-only-mode])
+    (setq wgrep-auto-save-buffer t)))
+
 (progn ;     startup
   (message "Loading %s...done (%.3fs)" user-init-file
            (float-time (time-subtract (current-time)
