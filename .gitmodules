@@ -208,7 +208,7 @@
 	url = git@github.com:volrath/treepy.el.git
 [submodule "undo-fu"]
 	path = lib/undo-fu
-	url = https://gitlab.com/ideasman42/emacs-undo-fu.git
+	url = https://codeberg.org/ideasman42/emacs-undo-fu.git
 [submodule "use-package"]
 	path = lib/use-package
 	url = git@github.com:jwiegley/use-package.git
