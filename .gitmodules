@@ -87,16 +87,6 @@
 [submodule "epkg"]
 	path = lib/epkg
 	url = git@github.com:emacscollective/epkg.git
-[submodule "evil"]
-	path = lib/evil
-	url = git@github.com:emacs-evil/evil.git
-	info-path = doc/build/texinfo
-[submodule "evil-collection"]
-	path = lib/evil-collection
-	url = git@github.com:emacs-evil/evil-collection.git
-[submodule "evil-goggles"]
-	path = lib/evil-goggles
-	url = https://github.com/edkolev/evil-goggles.git
 [submodule "f"]
 	path = lib/f
 	url = https://github.com/rejeep/f.el.git
