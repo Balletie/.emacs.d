@@ -40,6 +40,9 @@
 [submodule "consult-ag"]
 	path = lib/consult-ag
 	url = https://github.com/yadex205/consult-ag.git
+[submodule "consult-dir"]
+	path = lib/consult-dir
+	url = git@github.com:karthink/consult-dir.git
 [submodule "dash"]
 	path = lib/dash
 	url = git@github.com:magnars/dash.el.git
@@ -180,6 +183,9 @@
 [submodule "pfuture"]
 	path = lib/pfuture
 	url = https://github.com/Alexander-Miller/pfuture.git
+[submodule "popper"]
+	path = lib/popper
+	url = https://github.com/karthink/popper
 [submodule "projectile"]
 	path = lib/projectile
 	url = git@github.com:bbatsov/projectile.git

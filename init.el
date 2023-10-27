@@ -163,8 +163,7 @@
 ;;; Long tail
 
 (use-package avy
-  :bind (("C-," . avy-goto-char-2)
-	 ("C-;" . avy-goto-word-1)
+  :bind (("C-;" . avy-goto-word-1)
 	 ("C-'" . avy-isearch)))
 
 (use-package autorevert
@@ -266,6 +265,12 @@
   (setq consult-narrow-key "<") ;; (kbd "C-+")
 )
 
+(use-package consult-dir
+  :bind (("C-x C-d" . consult-dir)
+         :map vertico-map
+         ("C-x C-d" . consult-dir)
+         ("C-x C-j" . consult-dir-jump-file)))
+
 (use-package devdocs
   :bind (("C-h D" . devdocs-lookup)))
 
@@ -324,6 +329,7 @@
   :demand t
   :bind
   (("C-." . embark-act)
+   ("C-," . embark-select)
    ("M-." . embark-dwim)
    ("C-h B" . embark-bindings)) ;; alternative for `describe-bindings'
   :init
@@ -532,6 +538,20 @@
                             (cons `((python-mode python-ts-mode)
                                     . (,(pet-executable-find "pylsp")))
                                   eglot-server-programs)))))
+
+(use-package popper
+  :bind (("C-`"   . popper-toggle)
+         ("M-`"   . popper-cycle)
+         ("C-M-`" . popper-toggle-type))
+  :init
+  (setq popper-reference-buffers
+        '("\\*Messages\\*"
+          "Output\\*$"
+          "\\*Async Shell Command\\*"
+          help-mode
+          compilation-mode))
+  (popper-mode +1)
+  (popper-echo-mode +1))
 
 (use-package prog-mode
   :config
